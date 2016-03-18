@@ -57,22 +57,32 @@ public class DataSource {
         return database.isOpen();
     }
 
+    /**
+     *
+     * @param user
+     * @return CententValues
+     */
     private ContentValues registerUserData(User user){
         ContentValues values = new ContentValues();
-        values.put("Name", user.getName());
         values.put("Username", user.getUsername());
         values.put("Password", user.getPassword());
         return values;
     }
 
-    public void registerUser(User user){
+    /**
+     *
+     * @param user
+     * @return boolean ob user in DB vorhanden ist oder nicht
+     */
+    public boolean registerUser(User user){
         try{ContentValues values = registerUserData(user);
 
             long insertId = database.insert(TABLE_USER, null, values);
             Log.e(LOG_TAG, "Register User erfolgreich" );
-
+            return true;
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim Anlegen der Tabelle: " + ex.getMessage());
+            return false;
         }
 
     }
@@ -82,8 +92,7 @@ public class DataSource {
         boolean result = false;
 
         try {
-            Cursor cursor = database.query("user", null, " Username=? and Password=?",
-                    new String[] { user.getUsername(),user.getPassword() }, null, null, null);
+            Cursor cursor = database.query("user", null, " Username=? and Password=?", new String[] { user.getUsername(),user.getPassword() }, null, null, null);
 
             if (cursor.getCount() == 1) // UserName Not Exist
             {
@@ -95,28 +104,10 @@ public class DataSource {
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim Login:" + ex.getMessage());
         }
-        database.close();
         return result;
     }
-//    /**
-//     * Return ContentValues to insert new dataset
-//     * @param City
-//     */
-//    private ContentValues cityData(City entry) {
-//        ContentValues values = new ContentValues();
-//        values.put("NAME", entry.getName());
-//        values.put("COUNTRY", entry.getCountry());
-//        values.put("POPULATION", entry.getPopulation());
-//        return values;
-//    }
-//
-//
-//    /**
-//     * Convert Cursor to City
-//     * @param cursor
-//     * @return City
-//     *
-//     */
+}
+
 //    private City cityCursorToEntry(Cursor cursor) {
 //        City entry;
 //        entry = new City(cursor.getLong(0), // ID
@@ -126,15 +117,7 @@ public class DataSource {
 //        return entry;
 //    }
 //
-//    /**
-//     * insert a new dataset of city
-//     * @param City
-//     */
-//    public void insertCity(City entry) {
-//        ContentValues values = cityData(entry);
-//        long insertId = database.insert(TABLE_MYCITIES, null, values);
-//    }
-//
+
 //    /**
 //     * Delete all data of table
 //     */
@@ -163,4 +146,3 @@ public class DataSource {
 //        cursor.close();
 //        return myCityList;
 //    }
-}

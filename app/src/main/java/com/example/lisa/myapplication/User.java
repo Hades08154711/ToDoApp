@@ -5,24 +5,12 @@ package com.example.lisa.myapplication;
 public class User {
 
 
-    private String name, username, password;
+    private String username, password;
 
 
-    public User(String name, String username, String password){
-        this.name = name;
-
+    public User(String username, String password){
         this.username = username;
         this.password = password;
-    }
-     public User(String username, String password){
-         this.username = username;
-         this.password = password;
-
-         this.name = "";
-     }
-
-    public String getName() {
-        return name;
     }
 
     public String getUsername() {

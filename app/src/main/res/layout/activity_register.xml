@@ -7,18 +7,6 @@
     android:padding="10dp"
     android:layout_width="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Name"
-        android:layout_height="wrap_content" />
-    <!--//Textbox-->
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
-
-
     <!--Überschrift -->
     <TextView
         android:layout_width="wrap_content"
@@ -43,9 +31,23 @@
 
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Password wiederholen"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etPassword2"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/bRegister"
         android:text="Register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+
 </LinearLayout>
