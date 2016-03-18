@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +18,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     Button bLogin;
     EditText etUsername, etPassword;
     TextView tvRegisterLink;
+    private DataSource ds;
+    private static final String LOG_TAG = DataSource.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ds = new DataSource(this);
+        ds.open();
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword =(EditText) findViewById(R.id.etPassword);
@@ -47,6 +53,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bLogin:
+                etUsername = (EditText) findViewById(R.id.etUsername);
+                etPassword = (EditText) findViewById(R.id.etPassword);
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+                User myUser = new User("", username, password);
+
+                if (ds.loginUser(myUser)){
+                    Log.e(LOG_TAG, "Login Erfolgreich");
+                    startActivity(new Intent(this, MainActivity.class));
+                }else{
+                    Log.e(LOG_TAG, "kein User in DB gefunden");
+                    startActivity(new Intent(this, Login.class));
+                }
                 break;
 
             case R.id.tvRegisterLink:

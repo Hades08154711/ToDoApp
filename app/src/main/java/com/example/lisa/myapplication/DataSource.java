@@ -78,15 +78,24 @@ public class DataSource {
     }
 
     public boolean loginUser(User user){
+
         boolean result = false;
 
         try {
-            //Cursor c = database.query("user", null, null,null,null,null,null);
-            Cursor c = database.rawQuery("SELECT Name", null);
+            Cursor cursor = database.query("user", null, " Username=? and Password=?",
+                    new String[] { user.getUsername(),user.getPassword() }, null, null, null);
+
+            if (cursor.getCount() == 1) // UserName Not Exist
+            {
+                result = true;
+            }
+
+            cursor.close();
 
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim Login:" + ex.getMessage());
         }
+        database.close();
         return result;
     }
 //    /**
