@@ -3,8 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.lisa.myapplication.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_verwaltung"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Benutzerverwaltung"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_newtodo"
+        android:orderInCategory="200"
+        android:title="neues ToDo erstellen"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_deleteall"
+        android:orderInCategory="300"
+        android:title="alle ToDo's löschen"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sortDate"
+        android:orderInCategory="400"
+        android:title="nach Datum sortieren"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_"
+        android:orderInCategory="500"
+        android:title="nach Wichtigkeit+Datum sortieren"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_hideDone"
+        android:orderInCategory="600"
+        android:title="erledigte ToDo's ein- /ausblenden"
         app:showAsAction="never" />
 </menu>
