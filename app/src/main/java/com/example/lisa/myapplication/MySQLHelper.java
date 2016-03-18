@@ -11,18 +11,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLHelper extends SQLiteOpenHelper {
     private static final String TABLE_USER = "user";
     private static final String TABLE_TODO = "todo";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "name";
-    private static final String DATABASE_NAME = "mydatabase.db";
+    private static final String COLUMN_ID = "Id";
+    private static final String COLUMN_NAME = "Name";
+    private static final String DATABASE_NAME = "myNewDatabase.db";
     private static final int DATABASE_VERSION = 1;
     // Create Database SQLite String
     private static final String DATABASE_CREATE_USER =
             "create table "
                     + TABLE_USER
-                    + "(ID integer primary key autoincrement, "
-                    + "NAME text,"
-                    +"USERNAME text,"
-                    +"PASSWORD text"
+                    + "(Id integer primary key autoincrement, "
+                    + "Name text,"
+                    +"Username text,"
+                    +"Password text"
                     + ")";
 
     private static final String DATABASE_CREATE_TODO=

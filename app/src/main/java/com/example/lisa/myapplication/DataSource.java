@@ -59,9 +59,9 @@ public class DataSource {
 
     private ContentValues registerUserData(User user){
         ContentValues values = new ContentValues();
-        values.put("NAME", user.getName());
-        values.put("USERNAME", user.getUsername());
-        values.put("PASSWORD", user.getPassword());
+        values.put("Name", user.getName());
+        values.put("Username", user.getUsername());
+        values.put("Password", user.getPassword());
         return values;
     }
 
@@ -77,6 +77,18 @@ public class DataSource {
 
     }
 
+    public boolean loginUser(User user){
+        boolean result = false;
+
+        try {
+            //Cursor c = database.query("user", null, null,null,null,null,null);
+            Cursor c = database.rawQuery("SELECT Name", null);
+
+        }catch (Exception ex){
+            Log.e(LOG_TAG, "Fehler beim Login:" + ex.getMessage());
+        }
+        return result;
+    }
 //    /**
 //     * Return ContentValues to insert new dataset
 //     * @param City
