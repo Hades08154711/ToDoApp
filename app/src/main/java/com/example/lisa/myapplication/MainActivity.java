@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button bLogout;
     EditText etName, etAge, etUsername, etPassword;
+    Appdaten toDo;
 
 
     @Override
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bLogout.setOnClickListener(this);
 
-
+        toDo = new Appdaten();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +78,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.action_verwaltung) {
             return true;
         }
-
+        if (id == R.id.action_newtodo){
+            toDo.setBeschreibung(this,"test");
+        }
         return super.onOptionsItemSelected(item);
     }
     //    @Override
