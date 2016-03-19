@@ -8,17 +8,17 @@ import android.content.SharedPreferences;
  */
 public final class Appdaten {
         public static final String FILENAME = "meine_sharedPrefs";
-        public static final String Beschreibung ="beschreibung";
+        public static final String TASK ="task";
     //Methode zum Lesen
         public static String getBeschreibung(Context ctx){
             SharedPreferences prefs = ctx.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-            return prefs.getString(Beschreibung, null);
+            return prefs.getString(TASK, null);
         }
     //Methode zum Schreiben
-    public static void setBeschreibung(Context ctx, String beschreibung){
+    public static void setTask(Context ctx, String task){
         SharedPreferences prefs = ctx.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Beschreibung, beschreibung);
+        editor.putString(TASK, task);
         editor.commit();
     }
 }

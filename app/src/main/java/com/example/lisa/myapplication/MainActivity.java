@@ -75,11 +75,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_verwaltung) {
-            return true;
-        }
-        if (id == R.id.action_newtodo){
-            toDo.setBeschreibung(this,"test");
+        switch (id){
+            case R.id.action_verwaltung:
+                startActivity(new Intent(this, Verwaltung.class));
+                break;
+            case R.id.action_newtodo:
+                toDo.setTask(this,"test");
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

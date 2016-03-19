@@ -29,7 +29,8 @@
         <activity
             android:name=".User"
             android:label="@string/title_activity_user"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Verwaltung"></activity>
     </application>
 
 </manifest>
