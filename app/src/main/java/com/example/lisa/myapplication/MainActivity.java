@@ -13,13 +13,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
+import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button bLogout;
     EditText etName, etAge, etUsername, etPassword;
     Appdaten toDo;
+    ArrayList<Task> list;
 
 
     @Override
@@ -28,6 +33,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //ListView vom Array generieren
+        displayListView();
+
+        //checkButtonClick();
+
         bLogout = (Button) findViewById(R.id.bLogout);
 
         bLogout.setOnClickListener(this);
@@ -37,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(this, Task.class));
+
             }
         });
 
@@ -50,12 +60,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void displayListView(){
+        list = new ArrayList<Task>();
+        // Instanzen unserer AdapterViews
+        ListView listView = (ListView) findViewById(R.id.listView);
+        // Adapterinstanz erstellen
+        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>
+                (this,android.R.layout.simple_list_item_1, list);
+        // Anbinden an den Adapter
+        listView.setAdapter(adapter);
+    }
+
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bLogout:
                 startActivity(new Intent(this, Login.class));
                 break;
+//            case R.id.fab:
+//                startActivity(new Intent(this, Task.class));
+
 
         }
     }
@@ -80,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, Verwaltung.class));
                 break;
             case R.id.action_newtodo:
-                toDo.setTask(this,"test");
+                startActivity(new Intent(this, Task.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
