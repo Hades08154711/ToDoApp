@@ -92,8 +92,8 @@ public class DataSource {
         boolean result = false;
 
         try {
-            Cursor cursor = database.query("user", null, " Username=? and Password=?", new String[] { user.getUsername(),user.getPassword() }, null, null, null);
-
+            Cursor cursor = database.query("user", null, " Username = ? AND Password = ?", new String[]{user.getUsername(), user.getPassword()}, null, null, null);
+            Log.e(LOG_TAG, "User query - get Count: " + cursor.getCount());
             if (cursor.getCount() == 1) // UserName Not Exist
             {
                 result = true;
@@ -105,6 +105,19 @@ public class DataSource {
             Log.e(LOG_TAG, "Fehler beim Login:" + ex.getMessage());
         }
         return result;
+    }
+
+    public void setNewPassword(User user){
+
+        ContentValues values = new ContentValues();
+        values.put("Password", user.getPassword());
+
+        try {
+            database.update("user", values, "Username = ?" , new String[]{user.getUsername()});
+        }catch (Exception ex){
+            Log.e(LOG_TAG, "Fehler beim passwort Update:" + ex.getMessage());
+        }
+
     }
 }
 
