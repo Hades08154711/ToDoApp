@@ -121,6 +121,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     private boolean isPasswordValid(String password) {
         //TODO sonderzeichen nicht erlauben
+        for (int i =0; i<password.length(); i++) {
+            if (password.charAt(i) > -1 && password.charAt(i) <=47
+                    || password.charAt(i) >= 58&& password.charAt(i) <= 64
+                    || password.charAt(i) >= 91&& password.charAt(i) <= 96){
+                return false;
+            }
+        }
         Pattern p = Pattern.compile("([A-Za-z].+[0-9])");
         Matcher m = p.matcher(password);
 
