@@ -34,6 +34,10 @@
             android:name=".Verwaltung"
             android:label="@string/title_activity_verwaltung"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Task"
+            android:label="@string/title_activity_task"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

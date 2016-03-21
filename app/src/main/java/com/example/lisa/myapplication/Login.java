@@ -33,7 +33,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         ds = new DataSource(this);
         ds.open();
-
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword =(EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
@@ -103,12 +102,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
             User user = new User(username,password);
+           // ds.open();
             if(ds.loginUser(user)){
+                ds.close();
                 startActivity(new Intent(this, MainActivity.class));
             }else{
 //                etPassword.setError(getString(R.string.error_invalid_email));
 //                etPassword.setError(getString(R.string.error_invalid_password));
 //                focusView = etPassword;
+               // ds.close();
                 cancel = true;
             }
 

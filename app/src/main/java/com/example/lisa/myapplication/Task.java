@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class Task extends AppCompatActivity {
+public class Task extends AppCompatActivity implements View.OnClickListener{
 
-    Button bBestätigen;
+    Button bBestaetigen;
     Appdaten toDo;
     int bWichtig;
     EditText etTitel, etBeschreibung, etDatum, etUhrzeit;
@@ -40,8 +40,8 @@ public class Task extends AppCompatActivity {
         etUhrzeit = (EditText) findViewById(R.id.Uhrzeit);
         bWichtig = (int) (R.id.Wichtig);
 
-        bBestätigen = (Button)(R.id.bBestätigen);
-        bBestätigen.setOnClickListener(this);
+        bBestaetigen = (Button) findViewById(R.id.bBestaetigen);
+        bBestaetigen.setOnClickListener(this);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //
@@ -65,15 +65,15 @@ public class Task extends AppCompatActivity {
         uhrzeit = etUhrzeit.toString();
         wichtig = bWichtig;
 
-        Task neueTask = new Task(titel, beschreibung, datum, uhrzeit, wichtig );
-        toDo = new Appdaten(neueTask);
+//        Task neueTask = new Task(titel, beschreibung, datum, uhrzeit, wichtig );
+//        toDo = new Appdaten(neueTask);
 
 
     }
 
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.bBestätigen:
+            case R.id.bBestaetigen:
                 addToDo();
                 startActivity(new Intent(this, MainActivity.class));
                 break;

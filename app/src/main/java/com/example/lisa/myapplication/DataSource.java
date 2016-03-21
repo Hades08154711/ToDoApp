@@ -113,11 +113,30 @@ public class DataSource {
         values.put("Password", user.getPassword());
 
         try {
-            database.update("user", values, "Username = ?" , new String[]{user.getUsername()});
+            database.update("user", values, "Username = ?", new String[]{user.getUsername()});
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim passwort Update:" + ex.getMessage());
         }
 
+    }
+
+    public boolean firstLogin(){
+        boolean result = false;
+
+        try {
+            Cursor cursor = database.query("user", null, null, null, null, null, null);
+            Log.e(LOG_TAG, "First Login? - get User Count: " + cursor.getCount());
+            if (cursor.getCount() < 1) // UserName Not Exist
+            {
+                result = true;
+            }
+
+            cursor.close();
+
+        }catch (Exception ex){
+            Log.e(LOG_TAG, "Fehler beim pruefen ob erster Login:" + ex.getMessage());
+        }
+        return result;
     }
 }
 

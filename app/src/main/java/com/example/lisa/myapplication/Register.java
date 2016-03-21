@@ -101,7 +101,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 //            mAuthTask.execute((Void) null);
 
             User u = new User(username,password);
-
+            //ds.open();
             if(ds.registerUser(u)){
                 ds.close();
                 startActivity(new Intent(this, MainActivity.class));
@@ -111,6 +111,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 //                etPassword.setError(getString(R.string.error_invalid_password));
 //                focusView = etPassword;
                 cancel = true;
+               // ds.close();
             }
         }
     }

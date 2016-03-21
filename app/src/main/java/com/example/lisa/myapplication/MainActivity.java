@@ -25,32 +25,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText etName, etAge, etUsername, etPassword;
     Appdaten toDo;
     ArrayList<Task> list;
-
+    DataSource ds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //ListView vom Array generieren
-        displayListView();
+        ds = new DataSource(this);
+        ds.open();
+        if(firstLogin()){
+            startActivity(new Intent(this, Register.class));
+        }else{
+            setContentView(R.layout.activity_main);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            //ListView vom Array generieren
+            displayListView();
 
-        //checkButtonClick();
+            //checkButtonClick();
 
-        bLogout = (Button) findViewById(R.id.bLogout);
+            bLogout = (Button) findViewById(R.id.bLogout);
 
-        bLogout.setOnClickListener(this);
+            bLogout.setOnClickListener(this);
 
-        toDo = new Appdaten();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(this, Task.class));
+            toDo = new Appdaten();
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(this);
+//            fab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    startActivity(new Intent(this, Task.class));
+//
+//                }
+//            });
+        }
 
-            }
-        });
 
 
         //etName = (EditText) findViewById(R.id.etName);
@@ -58,6 +66,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // etUsername = (EditText) findViewById(R.id.etUsername);
 
 
+    }
+
+    private boolean firstLogin(){
+        //ds.open();
+        boolean result = ds.firstLogin();
+        return result;
     }
 
     private void displayListView(){
@@ -79,9 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bLogout:
                 startActivity(new Intent(this, Login.class));
                 break;
-//            case R.id.fab:
-//                startActivity(new Intent(this, Task.class));
-
+            case R.id.fab:
+                startActivity(new Intent(this, Task.class));
+                break;
 
         }
     }

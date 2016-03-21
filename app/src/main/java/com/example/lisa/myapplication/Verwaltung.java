@@ -39,7 +39,6 @@ public class Verwaltung extends AppCompatActivity implements View.OnClickListene
         _username = "affe";
         ds = new DataSource(this);
         ds.open();
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +62,10 @@ public class Verwaltung extends AppCompatActivity implements View.OnClickListene
     private boolean checkOldPasswordValid(String oldPW){
 
         User user = new User(_username,oldPW);
-        return ds.loginUser(user);
+        //ds.open();
+        boolean result = ds.loginUser(user);
+        //ds.close();
+        return result;
     }
 
     private boolean isPasswordValid(String password) {
@@ -130,8 +132,9 @@ public class Verwaltung extends AppCompatActivity implements View.OnClickListene
 //            mAuthTask.execute((Void) null);
 
             User u = new User(_username,newPW);
+           // ds.open();
             ds.setNewPassword(u);
-            ds.close();
+            //ds.close();
             startActivity(new Intent(this, MainActivity.class));
 
         }
