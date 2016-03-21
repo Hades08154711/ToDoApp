@@ -1,5 +1,6 @@
 package com.example.lisa.myapplication;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 /**
@@ -19,6 +21,7 @@ public class DataSource {
     public Context context;
 
     private static final String TABLE_USER = "user";
+    private static final String TABLE_TODO = "todo";
     private static final String LOG_TAG = DataSource.class.getSimpleName();
     /**
      * Constructor
@@ -138,7 +141,25 @@ public class DataSource {
         }
         return result;
     }
+
+    private ContentValues addTodoData(String titel, String beschreibung, DateFormat datum, Time uhrzeit, String wichtig){
+
+        return null;
+    }
+
+    public boolean addTodo(String titel, String beschreibung, DateFormat datum, Time uhrzeit, String wichtig){
+        try{ContentValues values = addTodoData(titel, beschreibung, datum, uhrzeit, wichtig);
+
+            long insertId = database.insert(TABLE_TODO, null, values);
+            Log.e(LOG_TAG, "Register User erfolgreich" );
+            return true;
+        }catch (Exception ex){
+            Log.e(LOG_TAG, "Fehler beim Anlegen der Tabelle: " + ex.getMessage());
+            return false;
+        }
+    }
 }
+
 
 //    private City cityCursorToEntry(Cursor cursor) {
 //        City entry;

@@ -21,18 +21,13 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
 
     private String titel, beschreibung, datum, uhrzeit;
     private int wichtig;
-
-    public Task(String titel , String beschreibung, String datum, String uhrzeit, int wichtig){
-        this.titel = titel;
-        this.beschreibung = beschreibung;
-        this.datum = datum;
-        this.uhrzeit = uhrzeit;
-    }
-
+    private DataSource ds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ds = new DataSource(this);
+        ds.open();
         setContentView(R.layout.activity_task);
         etTitel = (EditText) findViewById(R.id.Titel);
         etBeschreibung = (EditText) findViewById(R.id.Beschreibung);
@@ -65,6 +60,11 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         uhrzeit = etUhrzeit.toString();
         wichtig = bWichtig;
 
+        if(ds.addTodo(titel, beschreibung, datum, uhrzeit, wichtig)){
+
+        }else{
+
+        }
 //        Task neueTask = new Task(titel, beschreibung, datum, uhrzeit, wichtig );
 //        toDo = new Appdaten(neueTask);
 

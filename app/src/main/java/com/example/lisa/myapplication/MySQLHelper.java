@@ -28,8 +28,12 @@ public class MySQLHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE_TODO=
             "create table "
                     + TABLE_TODO
-                    + "(" + COLUMN_ID + " integer primary key autoincrement, "
-                    + COLUMN_NAME + " text)";
+                    + "(Id integer primary key autoincrement, "
+                    + "Title text,"
+                    +"Info text,"
+                    +"Date date,"
+                    +"Time time"
+                    + ")";
 
     public MySQLHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,7 +42,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         try {
             database.execSQL(DATABASE_CREATE_USER);
-           // database.execSQL(DATABASE_CREATE_TODO);
+            database.execSQL(DATABASE_CREATE_TODO);
         } catch (SQLException e) {
             e.printStackTrace();
         }
