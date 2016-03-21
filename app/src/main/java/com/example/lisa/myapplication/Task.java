@@ -15,10 +15,19 @@ import android.widget.EditText;
 public class Task extends AppCompatActivity {
 
     Button bBestätigen;
-    Boolean bWichtig;
+    Appdaten toDo;
+    int bWichtig;
     EditText etTitel, etBeschreibung, etDatum, etUhrzeit;
 
+    private String titel, beschreibung, datum, uhrzeit;
+    private int wichtig;
 
+    public Task(String titel , String beschreibung, String datum, String uhrzeit, int wichtig){
+        this.titel = titel;
+        this.beschreibung = beschreibung;
+        this.datum = datum;
+        this.uhrzeit = uhrzeit;
+    }
 
 
     @Override
@@ -29,7 +38,7 @@ public class Task extends AppCompatActivity {
         etBeschreibung = (EditText) findViewById(R.id.Beschreibung);
         etDatum = (EditText) findViewById(R.id.Datum);
         etUhrzeit = (EditText) findViewById(R.id.Uhrzeit);
-        bWichtig = (Boolean) (R.id.Wichtig);
+        bWichtig = (int) (R.id.Wichtig);
 
         bBestätigen = (Button)(R.id.bBestätigen);
         bBestätigen.setOnClickListener(this);
@@ -48,15 +57,24 @@ public class Task extends AppCompatActivity {
     public View findViewById(int id) {
         return super.findViewById(id);
     }
-    private void addToDo(Task task){
+
+    private void addToDo(){
+        titel = etTitel.toString();
+        beschreibung = etBeschreibung.toString();
+        datum = etDatum.toString();
+        uhrzeit = etUhrzeit.toString();
+        wichtig = bWichtig;
+
+        Task neueTask = new Task(titel, beschreibung, datum, uhrzeit, wichtig );
+        toDo = new Appdaten(neueTask);
+
 
     }
 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bBestätigen:
-
-                addToDo(this);
+                addToDo();
                 startActivity(new Intent(this, MainActivity.class));
                 break;
 //            case R.id.fab:
@@ -64,5 +82,24 @@ public class Task extends AppCompatActivity {
 
 
         }
+    }
+    public String getTitel() {
+        return titel;
+    }
+
+    public String getBeschreibung() {
+        return beschreibung;
+    }
+
+    public String getDatum() {
+        return datum;
+    }
+
+    public String getUhrzeit() {
+        return uhrzeit;
+    }
+
+    public int getWichtig() {
+        return wichtig;
     }
 }
