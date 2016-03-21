@@ -12,6 +12,11 @@
     tools:context="com.example.lisa.myapplication.Task"
     tools:showIn="@layout/activity_task">
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -59,12 +64,12 @@
             android:text="Datum (tt.mm.jjjj)"
             android:id="@+id/textView6" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <DatePicker
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/Datum" />
+            android:id="@+id/datePicker"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,12 +77,11 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Uhrzeit (ss:mm)" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <TimePicker
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="time"
-            android:ems="10"
-            android:id="@+id/Uhrzeit" />
+            android:id="@+id/timePicker"
+            android:timePickerMode="spinner" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -113,4 +117,7 @@
             android:layout_weight="0.17" />
 
     </LinearLayout>
+
+    </ScrollView>
+
 </RelativeLayout>

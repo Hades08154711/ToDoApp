@@ -32,7 +32,9 @@ public class MySQLHelper extends SQLiteOpenHelper {
                     + "Title text,"
                     +"Info text,"
                     +"Date date,"
-                    +"Time time"
+                    +"Time time,"
+                    +"Wichtig int,"
+                    +"Erledigt int"
                     + ")";
 
     public MySQLHelper(Context context) {

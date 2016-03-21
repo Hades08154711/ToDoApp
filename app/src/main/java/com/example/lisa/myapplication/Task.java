@@ -7,21 +7,36 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
+
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Task extends AppCompatActivity implements View.OnClickListener{
 
     Button bBestaetigen;
     Appdaten toDo;
     int bWichtig;
-    EditText etTitel, etBeschreibung, etDatum, etUhrzeit;
-
-    private String titel, beschreibung, datum, uhrzeit;
+    EditText etTitel, etBeschreibung;
+    SimpleDateFormat simpleFormat;
+    private String titel, beschreibung;
+    Date datum;
+    Time uhrzeit;
     private int wichtig;
     private DataSource ds;
+    long longTime;
+    EditText etDate;
+    EditText etTime;
+    DatePicker dp;
+    TimePicker tp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +46,13 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_task);
         etTitel = (EditText) findViewById(R.id.Titel);
         etBeschreibung = (EditText) findViewById(R.id.Beschreibung);
-        etDatum = (EditText) findViewById(R.id.Datum);
-        etUhrzeit = (EditText) findViewById(R.id.Uhrzeit);
+        dp = (DatePicker) findViewById(R.id.datePicker);
+        tp = (TimePicker) findViewById(R.id.timePicker);
+//        etDate = (EditText) findViewById(R.id.Datum);
+//        etTime = (EditText) findViewById(R.id.Uhrzeit);
+
+
+
         bWichtig = (int) (R.id.Wichtig);
 
         bBestaetigen = (Button) findViewById(R.id.bBestaetigen);
@@ -56,15 +76,22 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
     private void addToDo(){
         titel = etTitel.toString();
         beschreibung = etBeschreibung.toString();
-        datum = etDatum.toString();
-        uhrzeit = etUhrzeit.toString();
-        wichtig = bWichtig;
-
-        if(ds.addTodo(titel, beschreibung, datum, uhrzeit, wichtig)){
-
-        }else{
-
-        }
+//        simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        try {
+//            datum = simpleFormat.parse(etDate.getText().toString());
+//        }catch(ParseException e){
+//            e.printStackTrace();
+//        }
+//        longTime = Long.parseLong(etTime.getText().toString());
+//        uhrzeit.setTime(longTime);
+//        wichtig = bWichtig;
+//
+//        if(ds.addTodo(titel, beschreibung, datum, uhrzeit, wichtig)){
+//
+//        }else{
+//
+//        }
 //        Task neueTask = new Task(titel, beschreibung, datum, uhrzeit, wichtig );
 //        toDo = new Appdaten(neueTask);
 
@@ -83,23 +110,5 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
 
         }
     }
-    public String getTitel() {
-        return titel;
-    }
 
-    public String getBeschreibung() {
-        return beschreibung;
-    }
-
-    public String getDatum() {
-        return datum;
-    }
-
-    public String getUhrzeit() {
-        return uhrzeit;
-    }
-
-    public int getWichtig() {
-        return wichtig;
-    }
 }

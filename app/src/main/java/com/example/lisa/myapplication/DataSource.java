@@ -2,6 +2,7 @@ package com.example.lisa.myapplication;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -142,12 +143,18 @@ public class DataSource {
         return result;
     }
 
-    private ContentValues addTodoData(String titel, String beschreibung, DateFormat datum, Time uhrzeit, String wichtig){
+    private ContentValues addTodoData(String titel, String beschreibung, Date datum, Time uhrzeit, int wichtig){
+        ContentValues values = new ContentValues();
+        values.put("Title", titel);
+        values.put("Info", beschreibung);
+        values.put("Date", datum.toString());
+        values.put("Time", uhrzeit.toString());
+        values.put("Wichtig", wichtig);
 
-        return null;
+        return values;
     }
 
-    public boolean addTodo(String titel, String beschreibung, DateFormat datum, Time uhrzeit, String wichtig){
+    public boolean addTodo(String titel, String beschreibung, Date datum, Time uhrzeit, int wichtig){
         try{ContentValues values = addTodoData(titel, beschreibung, datum, uhrzeit, wichtig);
 
             long insertId = database.insert(TABLE_TODO, null, values);
