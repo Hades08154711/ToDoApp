@@ -102,7 +102,11 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, myData);
         lv.setAdapter(adapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
+        for (int j = 0; j< allTasks.size(); j++){
+            if(allTasks.get(j).getErledigt() == 1){
+                lv.setItemChecked(j, true);
+            }
+        }
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
                 removeItemFromList(position);
