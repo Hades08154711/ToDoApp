@@ -12,18 +12,21 @@
     tools:context="com.example.lisa.myapplication.Task"
     tools:showIn="@layout/activity_task">
 
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView">
 
+        
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
+        android:weightSum="1"
         android:layout_alignParentTop="true"
-        android:weightSum="1">
+        android:layout_toRightOf="@+id/scrollView"
+        android:layout_toEndOf="@+id/scrollView">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,17 +55,17 @@
             android:text="Beschreibung"
             android:id="@+id/textView5" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Beschreibung" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Datum (tt.mm.jjjj)"
             android:id="@+id/textView6" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Beschreibung" />
 
         <DatePicker
             android:layout_width="wrap_content"
@@ -107,7 +110,13 @@
                 android:clickable="true" />
 
         </LinearLayout>
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cancel"
+            android:id="@+id/bCancel"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.17" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,8 +125,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.17" />
 
+
     </LinearLayout>
-
     </ScrollView>
-
 </RelativeLayout>

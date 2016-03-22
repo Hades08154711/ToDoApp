@@ -29,7 +29,8 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
     private DatePicker dp;
     private  TimePicker tp;
     private DataSource ds;
-    private Button bBestaetigen;
+    private Button bBestaetigen, bCancel;
+
 
 
     @Override
@@ -47,7 +48,9 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         cbWichtig = (CheckBox) findViewById(R.id.cbWichtig);
 
         bBestaetigen = (Button) findViewById(R.id.bBestaetigen);
+        bCancel = (Button) findViewById(R.id.bCancel);
         bBestaetigen.setOnClickListener(this);
+        bCancel.setOnClickListener(this);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //
@@ -105,6 +108,8 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
                 addToDo();
                 startActivity(new Intent(this, TodoActivity.class));
                 break;
+            case R.id.bCancel:
+                startActivity(new Intent(this, TodoActivity.class));
 //            case R.id.fab:
 //                startActivity(new Intent(this, Task.class));
 
