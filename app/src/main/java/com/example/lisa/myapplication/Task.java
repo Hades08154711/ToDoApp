@@ -22,38 +22,29 @@ import java.util.Date;
 
 public class Task extends AppCompatActivity implements View.OnClickListener{
 
-    Button bBestaetigen;
-    Appdaten toDo;
-    int bWichtig;
-    EditText etTitel, etBeschreibung;
-    SimpleDateFormat simpleFormat;
-    private String titel, beschreibung;
-    Date datum;
-    Time uhrzeit;
-    private int wichtig;
+
+
+    private CheckBox cbWichtig;
+    private EditText etTitel, etBeschreibung;
+    private DatePicker dp;
+    private  TimePicker tp;
     private DataSource ds;
-    long longTime;
-    EditText etDate;
-    EditText etTime;
-    DatePicker dp;
-    TimePicker tp;
+    private Button bBestaetigen;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ds = new DataSource(this);
         ds.open();
         setContentView(R.layout.activity_task);
+
         etTitel = (EditText) findViewById(R.id.Titel);
         etBeschreibung = (EditText) findViewById(R.id.Beschreibung);
         dp = (DatePicker) findViewById(R.id.datePicker);
         tp = (TimePicker) findViewById(R.id.timePicker);
-//        etDate = (EditText) findViewById(R.id.Datum);
-//        etTime = (EditText) findViewById(R.id.Uhrzeit);
-
-
-
-        bWichtig = (int) (R.id.Wichtig);
+        cbWichtig = (CheckBox) findViewById(R.id.cbWichtig);
 
         bBestaetigen = (Button) findViewById(R.id.bBestaetigen);
         bBestaetigen.setOnClickListener(this);
@@ -74,8 +65,18 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void addToDo(){
-        titel = etTitel.toString();
-        beschreibung = etBeschreibung.toString();
+
+        //TODO wert von cbWichtig abfragen
+        int wichtig = 0;
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+        //TODO Warum - 1900
+        String dateFormat = dateformat.format(new Date(dp.getYear()-1900, dp.getMonth(), dp.getDayOfMonth()));
+        if(ds.addTodo(etTitel.getText().toString(), etBeschreibung.getText().toString(), dateFormat, tp.getCurrentHour().toString() + ":" + tp.getCurrentMinute().toString(),wichtig)){
+
+        }else{
+
+        }
+
 //        simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
 //
 //        try {

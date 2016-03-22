@@ -10,17 +10,15 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class MySQLHelper extends SQLiteOpenHelper {
     private static final String TABLE_USER = "user";
-    private static final String TABLE_TODO = "todo";
-    private static final String COLUMN_ID = "Id";
-    private static final String COLUMN_NAME = "Name";
-    private static final String DATABASE_NAME = "myNewDatabase.db";
+    private static final String TABLE_TODO = "aufgaben";
+    private static final String DATABASE_NAME = "myNewerDatabase.db";
     private static final int DATABASE_VERSION = 1;
+
     // Create Database SQLite String
     private static final String DATABASE_CREATE_USER =
             "create table "
                     + TABLE_USER
                     + "(Id integer primary key autoincrement, "
-                    + "Name text,"
                     +"Username text,"
                     +"Password text"
                     + ")";
@@ -31,8 +29,8 @@ public class MySQLHelper extends SQLiteOpenHelper {
                     + "(Id integer primary key autoincrement, "
                     + "Title text,"
                     +"Info text,"
-                    +"Date date,"
-                    +"Time time,"
+                    +"Date text,"
+                    +"Time text,"
                     +"Wichtig int,"
                     +"Erledigt int"
                     + ")";
@@ -43,8 +41,8 @@ public class MySQLHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase database) {
         try {
-            database.execSQL(DATABASE_CREATE_USER);
             database.execSQL(DATABASE_CREATE_TODO);
+            database.execSQL(DATABASE_CREATE_USER);
         } catch (SQLException e) {
             e.printStackTrace();
         }

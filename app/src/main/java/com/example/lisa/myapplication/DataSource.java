@@ -22,7 +22,7 @@ public class DataSource {
     public Context context;
 
     private static final String TABLE_USER = "user";
-    private static final String TABLE_TODO = "todo";
+    private static final String TABLE_TODO = "aufgaben";
     private static final String LOG_TAG = DataSource.class.getSimpleName();
     /**
      * Constructor
@@ -143,22 +143,60 @@ public class DataSource {
         return result;
     }
 
-    private ContentValues addTodoData(String titel, String beschreibung, Date datum, Time uhrzeit, int wichtig){
+    private ContentValues addTodoData(String titel, String beschreibung, String datum, String uhrzeit, int wichtig){
         ContentValues values = new ContentValues();
         values.put("Title", titel);
         values.put("Info", beschreibung);
-        values.put("Date", datum.toString());
-        values.put("Time", uhrzeit.toString());
+        values.put("Date", datum);
+        values.put("Time", uhrzeit);
         values.put("Wichtig", wichtig);
-
+        values.put("Erledigt", 0);
         return values;
     }
 
-    public boolean addTodo(String titel, String beschreibung, Date datum, Time uhrzeit, int wichtig){
+    public ArrayList<ToDo> getAllTasks(){
+        ArrayList<ToDo> result = new ArrayList<ToDo>();
+
+        try {
+            Cursor cursor = database.query("aufgaben", null, null, null, null, null, null);
+            cursor.moveToFirst();
+        if (cursor.getCount() == 0){
+            cursor.close();
+            return result;
+        }
+        while (cursor.isAfterLast() == false) {
+            ToDo todo = todoCursorToEntry(cursor);
+            result.add(todo);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+            cursor.close();
+
+        }catch (Exception ex){
+            Log.e(LOG_TAG, "Fehler beim pruefen ob erster Login:" + ex.getMessage());
+        }
+        return result;
+    }
+
+    private ToDo todoCursorToEntry(Cursor cursor) {
+        ToDo todo;
+//        todo = new ToDo(cursor.getInt(0), // ID
+//                cursor.getString(1), // TITEL
+//                cursor.getString(2), 	// INFO
+//                cursor.getString(3), 	// DATE
+//                cursor.getInt(4)); 		// TIME
+//                cursor.getInt(5)); 		// WICHTIG
+        return null;
+    }
+
+//if(ds.addTodo(etTitel.toString(), etBeschreibung.toString(), new java.sql.Date(dp.getDayOfMonth(),dp.getMonth()+1,dp.getYear()), new Time(tp.getHour(),tp.getMinute(),0),bWichtig)){
+    public boolean addTodo(String titel, String beschreibung, String datum, String uhrzeit, int wichtig){
+
         try{ContentValues values = addTodoData(titel, beschreibung, datum, uhrzeit, wichtig);
 
             long insertId = database.insert(TABLE_TODO, null, values);
-            Log.e(LOG_TAG, "Register User erfolgreich" );
+            Log.e(LOG_TAG, "Add ToDo erfolgreich" );
             return true;
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim Anlegen der Tabelle: " + ex.getMessage());
