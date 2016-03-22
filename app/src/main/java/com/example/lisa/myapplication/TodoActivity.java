@@ -2,6 +2,7 @@ package com.example.lisa.myapplication;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,13 +70,13 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
                 android.R.layout.simple_list_item_multiple_choice, myData));
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
                 //Do your tasks here
                 AlertDialog.Builder alert = new AlertDialog.Builder(TodoActivity.this);
                 alert.setTitle("Alert!!");
                 alert.setMessage("Are you sure to delete record");
-                alert.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -164,6 +165,34 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+    private void alleloeschenallert(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(TodoActivity.this);
+        alert.setTitle("Vorsicht!");
+        alert.setMessage("Sind Sie sich sicher?");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO
+                ds.deleteAll();
+                Intent myIntent = new Intent(((Dialog) dialog).getContext(), TodoActivity.class);
+                startActivity(myIntent);
+                dialog.dismiss();
+
+            }
+        });
+        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -180,8 +209,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, Task.class));
                 break;
             case R.id.action_deleteall:
-                ds.deleteAll();
-                startActivity(new Intent(this, TodoActivity.class));
+                alleloeschenallert();
                 break;
 
 
