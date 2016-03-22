@@ -154,6 +154,10 @@ public class DataSource {
         return values;
     }
 
+    public void removeItem(ToDo todo){
+        database.delete(TABLE_TODO,"Id = '" + todo.getId() + "'",null);
+    }
+
     public void deleteAll(){
         database.delete(TABLE_TODO,null,null);
     }

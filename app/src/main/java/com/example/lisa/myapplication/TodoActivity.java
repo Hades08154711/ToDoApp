@@ -33,6 +33,9 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
     Button bLogout;
     DataSource ds;
     private ListView lv;
+    ArrayAdapter<String> adapter;
+    ArrayList<ToDo> allTasks ;
+    ArrayList<String> myData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,92 +54,87 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         if(firstLogin()){
             startActivity(new Intent(this, Register.class));
         }else{
-            test();
-          //  createLinearLayout();
+            createListView();
         }
     }
-    public void setDialogResult(boolean result){
+    // method to remove list item
+    protected void removeItemFromList(int position) {
+        final int deletePosition = position;
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(
+                TodoActivity.this);
+
+        alert.setTitle("Delete");
+        alert.setMessage("Do you want delete this item?");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TOD O Auto-generated method stub
+                ds.removeItem(allTasks.get(deletePosition));
+                // main code on after clicking yes
+                myData.remove(deletePosition);
+                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetInvalidated();
+
+            }
+        });
+        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
 
     }
-    private void test(){
+
+    private void createListView(){
         lv = (ListView) findViewById(R.id.listView);
-        final ArrayList<ToDo> allTasks = ds.getAllTasks();
-        final ArrayList<String> myData = new ArrayList<String>() ;
+        allTasks  = ds.getAllTasks();
+        myData = new ArrayList<String>();
         String test;
         for (int i = 0; i< allTasks.size(); i++){
             myData.add(allTasks.get(i).getTitel());
         }
-        lv.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_multiple_choice, myData));
+
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, myData);
+        lv.setAdapter(adapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                //Do your tasks here
-                AlertDialog.Builder alert = new AlertDialog.Builder(TodoActivity.this);
-                alert.setTitle("Alert!!");
-                alert.setMessage("Are you sure to delete record");
-                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //TODO
-
-//                        ds.deleteUser();
-                        dialog.dismiss();
-
-                    }
-                });
-                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-                    }
-                });
-
-                alert.show();
+                removeItemFromList(position);
+//                //Do your tasks here
+//                final boolean dialogResult = false;
+//                AlertDialog.Builder alert = new AlertDialog.Builder(TodoActivity.this);
+//                alert.setTitle("Alert!!");
+//                alert.setMessage("Are you sure to delete record");
+//                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //TODO
+//                        dialogResult = true;
+//                        dialog.dismiss();
+//
+//                    }
+//                });
+//                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                alert.show();
 
                 return true;
             }
         });
-    }
-
-
-    private void createLinearLayout(){
-
-        ScrollView sv = new ScrollView(getApplicationContext());
-
-        final LinearLayout ll = new LinearLayout(getApplicationContext());
-        ll.setOrientation(LinearLayout.VERTICAL);
-        sv.addView(ll);
-
-        ArrayList<ToDo> allTasks = ds.getAllTasks();
-
-        if (allTasks.size() == 0){
-            CheckBox cb = new CheckBox(getApplicationContext());
-            cb.setText("dummy");
-            cb.setTextColor(getResources().getColorStateList(R.color.colorBlack));
-            ll.addView(cb);
-        }else{
-            for(int i = 0; i < allTasks.size(); i++) {
-                CheckBox cb = new CheckBox(getApplicationContext());
-                //  cb.setText(allTasks.get(i).getTitel());
-                cb.setText("test");
-                cb.setTextColor(getResources().getColorStateList(R.color.colorBlack));
-                ll.addView(cb);
-            }
-        }
-
-
-        Button logout = new Button(getApplicationContext());
-        logout.setText("Logout");
-        logout.setId(R.id.bLogout);
-        logout.setOnClickListener(this);
-        ll.addView(logout);
-
-        this.setContentView(sv);
     }
 
     private boolean firstLogin(){
@@ -174,7 +172,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //TODO
-                ds.deleteAll();
+                ds.deleteAll();;
                 Intent myIntent = new Intent(((Dialog) dialog).getContext(), TodoActivity.class);
                 startActivity(myIntent);
                 dialog.dismiss();
