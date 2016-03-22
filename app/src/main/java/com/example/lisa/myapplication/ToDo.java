@@ -10,16 +10,17 @@ import java.util.Date;
  */
 public class ToDo {
     private String titel, info, date, time;
-    private int wichtig, id;
+    private int wichtig, id, erledigt;
 
 
-    public ToDo(int id, String titel, String info, String date, String time, int wichtig){
+    public ToDo(int id, String titel, String info, String date, String time, int wichtig, int erledigt){
         this.titel = titel;
         this.info = info;
         this.wichtig = wichtig;
         this.id = id;
         this.date = date;
         this.time = time;
+        this.erledigt = erledigt;
     }
 
     public String getTitel() {
@@ -44,5 +45,9 @@ public class ToDo {
 
     public String getTime() {
         return time;
+    }
+
+    public int getErledigt() {
+        return erledigt;
     }
 }
