@@ -9,12 +9,11 @@ import java.util.Date;
  * Created by User on 21.03.2016.
  */
 public class ToDo {
-    private String titel, info;
+    private String titel, info, date, time;
     private int wichtig, id;
-    private DateFormat date;
-    private Time time;
 
-    public ToDo(int id, String titel, String info, DateFormat date, Time time, int wichtig){
+
+    public ToDo(int id, String titel, String info, String date, String time, int wichtig){
         this.titel = titel;
         this.info = info;
         this.wichtig = wichtig;
@@ -39,11 +38,11 @@ public class ToDo {
         return id;
     }
 
-    public DateFormat getDate() {
+    public String getDate() {
         return date;
     }
 
-    public Time getTime() {
+    public String getTime() {
         return time;
     }
 }

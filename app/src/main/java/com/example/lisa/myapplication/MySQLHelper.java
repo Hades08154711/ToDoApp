@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLHelper extends SQLiteOpenHelper {
     private static final String TABLE_USER = "user";
     private static final String TABLE_TODO = "aufgaben";
-    private static final String DATABASE_NAME = "myNewerDatabase.db";
+    private static final String DATABASE_NAME = "myDatabase.db";
     private static final int DATABASE_VERSION = 1;
 
     // Create Database SQLite String

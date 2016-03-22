@@ -105,7 +105,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
            // ds.open();
             if(ds.loginUser(user)){
                 ds.close();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, TodoActivity.class));
             }else{
 //                etPassword.setError(getString(R.string.error_invalid_email));
 //                etPassword.setError(getString(R.string.error_invalid_password));

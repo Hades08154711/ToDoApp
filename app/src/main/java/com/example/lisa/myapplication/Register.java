@@ -104,7 +104,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             //ds.open();
             if(ds.registerUser(u)){
                 ds.close();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, TodoActivity.class));
             }else{
                 //TODO error massages richtig augeben
 //                etPassword.setError(getString(R.string.error_invalid_email));

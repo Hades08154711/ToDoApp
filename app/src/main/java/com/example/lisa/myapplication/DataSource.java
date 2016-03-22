@@ -160,16 +160,16 @@ public class DataSource {
         try {
             Cursor cursor = database.query("aufgaben", null, null, null, null, null, null);
             cursor.moveToFirst();
-        if (cursor.getCount() == 0){
+            if (cursor.getCount() == 0){
+                cursor.close();
+                return result;
+            }
+            while (cursor.isAfterLast() == false) {
+                ToDo todo = todoCursorToEntry(cursor);
+                result.add(todo);
+                cursor.moveToNext();
+            }
             cursor.close();
-            return result;
-        }
-        while (cursor.isAfterLast() == false) {
-            ToDo todo = todoCursorToEntry(cursor);
-            result.add(todo);
-            cursor.moveToNext();
-        }
-        cursor.close();
 
             cursor.close();
 
@@ -179,18 +179,28 @@ public class DataSource {
         return result;
     }
 
-    private ToDo todoCursorToEntry(Cursor cursor) {
+    private ToDo todoCursorToEntry(Cursor c) {
         ToDo todo;
-//        todo = new ToDo(cursor.getInt(0), // ID
-//                cursor.getString(1), // TITEL
-//                cursor.getString(2), 	// INFO
-//                cursor.getString(3), 	// DATE
-//                cursor.getInt(4)); 		// TIME
-//                cursor.getInt(5)); 		// WICHTIG
+//        String t1,t2,t3,t4;
+//        int i1,i2;
+//
+//        i1= c.getInt(c.getColumnIndex("Id"));
+//        t1 = c.getString(c.getColumnIndex("Title"));
+//        t2 = todo.getInfo() ;
+//        t3 = todo.getDate();
+//        t4 = todo.getTime();
+//        i2 = todo.getWichtig();
+//        todo = new ToDo(c.getInt(0), // ID
+//                c.getString(1), // TITEL
+//                c.getString(2), 	// INFO
+//                c.getString(3), 	// DATE
+//                c.getString(4), 		// TIME
+//                c.getInt(5)); 		// WICHTIG
+//        return todo;
         return null;
     }
 
-//if(ds.addTodo(etTitel.toString(), etBeschreibung.toString(), new java.sql.Date(dp.getDayOfMonth(),dp.getMonth()+1,dp.getYear()), new Time(tp.getHour(),tp.getMinute(),0),bWichtig)){
+    //if(ds.addTodo(etTitel.toString(), etBeschreibung.toString(), new java.sql.Date(dp.getDayOfMonth(),dp.getMonth()+1,dp.getYear()), new Time(tp.getHour(),tp.getMinute(),0),bWichtig)){
     public boolean addTodo(String titel, String beschreibung, String datum, String uhrzeit, int wichtig){
 
         try{ContentValues values = addTodoData(titel, beschreibung, datum, uhrzeit, wichtig);
@@ -242,5 +252,5 @@ public class DataSource {
 //            cursor.moveToNext();
 //        }
 //        cursor.close();
-//        return myCityList;
 //    }
+//        return myCityList;

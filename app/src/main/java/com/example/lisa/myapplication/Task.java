@@ -103,7 +103,7 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         switch (v.getId()){
             case R.id.bBestaetigen:
                 addToDo();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, TodoActivity.class));
                 break;
 //            case R.id.fab:
 //                startActivity(new Intent(this, Task.class));

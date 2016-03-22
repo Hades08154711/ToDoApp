@@ -135,7 +135,7 @@ public class Verwaltung extends AppCompatActivity implements View.OnClickListene
            // ds.open();
             ds.setNewPassword(u);
             //ds.close();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, TodoActivity.class));
 
         }
     }
