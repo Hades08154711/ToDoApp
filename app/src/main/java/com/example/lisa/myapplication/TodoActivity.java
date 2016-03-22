@@ -1,5 +1,8 @@
 package com.example.lisa.myapplication;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -50,7 +54,9 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
           //  createLinearLayout();
         }
     }
+    public void setDialogResult(boolean result){
 
+    }
     private void test(){
         lv = (ListView) findViewById(R.id.listView);
         final ArrayList<ToDo> allTasks = ds.getAllTasks();
@@ -59,41 +65,41 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i< allTasks.size(); i++){
             myData.add(allTasks.get(i).getTitel());
         }
-
-//        if (allTasks.size() == 0){
-//            CheckBox cb = new CheckBox(getApplicationContext());
-//            cb.setText("dummy");
-//            cb.setTextColor(getResources().getColorStateList(R.color.colorBlack));
-//            ll.addView(cb);
-//        }else{
-//            for(int i = 0; i < allTasks.size(); i++) {
-//                CheckBox cb = new CheckBox(getApplicationContext());
-//                //  cb.setText(allTasks.get(i).getTitel());
-//                cb.setText("test");
-//                cb.setTextColor(getResources().getColorStateList(R.color.colorBlack));
-//                ll.addView(cb);
-//            }
-//        }
-       // lv.setAdapter(new ArrayAdapter<String>(this,0, myData){
         lv.setAdapter(new ArrayAdapter<String>(this,
-            android.R.layout.simple_list_item_multiple_choice, myData));
-            lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                android.R.layout.simple_list_item_multiple_choice, myData));
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-//            private View row;
-//            private LayoutInflater inflater = getLayoutInflater();
-//            private CheckBox cb;
-//            TextView tv;
-//
-//            public View getView(int position, View convertView, ViewGroup parent){
-//
-//                row = inflater.inflate(android.R.layout.simple_list_item_1,parent, false);
-//                cb = (CheckBox) row.findViewById(android.R.id.checkbox);
-//                cb.setText(allTasks.get(position).getTitel());
-//                tv = (TextView) row.findViewById(android.R.id.text1);
-//                tv.setText(myData.get(position));
-//                return row;
-//            }
-//        });
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                //Do your tasks here
+                AlertDialog.Builder alert = new AlertDialog.Builder(TodoActivity.this);
+                alert.setTitle("Alert!!");
+                alert.setMessage("Are you sure to delete record");
+                alert.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO
+
+//                        ds.deleteUser();
+                        dialog.dismiss();
+
+                    }
+                });
+                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+
+                return true;
+            }
+        });
     }
 
 
@@ -173,6 +179,12 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.action_newtodo:
                 startActivity(new Intent(this, Task.class));
                 break;
+            case R.id.action_deleteall:
+                ds.deleteAll();
+                startActivity(new Intent(this, TodoActivity.class));
+                break;
+
+
         }
         return super.onOptionsItemSelected(item);
     }

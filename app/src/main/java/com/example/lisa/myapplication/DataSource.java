@@ -154,6 +154,9 @@ public class DataSource {
         return values;
     }
 
+    public void deleteAll(){
+        database.delete(TABLE_TODO,null,null);
+    }
     public ArrayList<ToDo> getAllTasks(){
         ArrayList<ToDo> result = new ArrayList<ToDo>();
 
