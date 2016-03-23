@@ -30,6 +30,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TodoActivity extends AppCompatActivity implements View.OnClickListener{
@@ -98,7 +100,8 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //TODO
-                ds.deleteAll();;
+                ds.deleteAll();
+                ;
                 Intent myIntent = new Intent(((Dialog) dialog).getContext(), TodoActivity.class);
                 startActivity(myIntent);
                 dialog.dismiss();
@@ -135,9 +138,24 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.action_deleteall:
                 alleloeschenallert();
                 break;
+            case R.id.action_sortDate:
+                sortierenWichtig();
+                break;
 
 
         }
         return super.onOptionsItemSelected(item);
     }
+    public void sortierenWichtig(){
+        Collections.sort(allTasks, new Comparator<ToDo>() {
+            @Override
+            public int compare(ToDo td1, ToDo td2) {
+                return td1.getTitel().compareToIgnoreCase(td2.getTitel());
+            }
+
+        });
+        CustomAdapter ca2 = new CustomAdapter(this,allTasks,ds);
+        lv.setAdapter(ca2);
+    }
+
 }
