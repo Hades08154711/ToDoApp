@@ -10,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,13 +33,14 @@ import java.util.List;
 
 public class TodoActivity extends AppCompatActivity implements View.OnClickListener{
 
+    Appdaten ad;
     Button bLogout;
     DataSource ds;
     private ListView lv;
     ArrayAdapter<String> adapter;
     ArrayList<ToDo> allTasks ;
     ArrayList<String> myData;
-
+    private static final String LOG_TAG = DataSource.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +48,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.tbTodo);
         setSupportActionBar(toolbar);
 
+        ad = new Appdaten();
         ds = new DataSource(this);
         ds.open();
 
@@ -73,6 +78,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
                 ds.removeItem(allTasks.get(deletePosition));
                 // main code on after clicking yes
                 myData.remove(deletePosition);
+                allTasks.remove(deletePosition);
                 adapter.notifyDataSetChanged();
                 adapter.notifyDataSetInvalidated();
 
@@ -102,45 +108,49 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, myData);
         lv.setAdapter(adapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // change the checkbox state
+                SparseBooleanArray checkedItems = getAllCecked(lv);
+                Log.e(LOG_TAG, "test");
+            }
+        });
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                removeItemFromList(position);
+                return true;
+            }
+        });
+
         for (int j = 0; j< allTasks.size(); j++){
             if(allTasks.get(j).getErledigt() == 1){
                 lv.setItemChecked(j, true);
             }
+            //lv.getItemAtPosition(j)
+//              CheckBox cb = (CheckBox) lv.getItemAtPosition(j);
+//              cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                      Intent myIntent = new Intent(TodoActivity.this, Task.class);
+//                      startActivity(myIntent);
+//                  }
+//              });
+//
+//                @Override
+//                public void onClick(View v) {
+//                    //is chkIos checked?
+//                    boolean ischecked = ((CheckBox) v).isChecked();
+//
+//                }
+//            });
         }
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                removeItemFromList(position);
-//                //Do your tasks here
-//                final boolean dialogResult = false;
-//                AlertDialog.Builder alert = new AlertDialog.Builder(TodoActivity.this);
-//                alert.setTitle("Alert!!");
-//                alert.setMessage("Are you sure to delete record");
-//                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        //TODO
-//                        dialogResult = true;
-//                        dialog.dismiss();
-//
-//                    }
-//                });
-//                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                alert.show();
-
-                return true;
-            }
-        });
     }
 
+    private SparseBooleanArray getAllCecked(ListView lv){
+        SparseBooleanArray checked = lv.getCheckedItemPositions();
+        return checked;
+    }
     private boolean firstLogin(){
         //ds.open();
         boolean result = ds.firstLogin();
