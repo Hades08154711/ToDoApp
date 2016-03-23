@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -40,6 +41,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
     ArrayAdapter<String> adapter;
     ArrayList<ToDo> allTasks ;
     ArrayList<String> myData;
+
     private static final String LOG_TAG = DataSource.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,8 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        createListView();
+        //createListView();
+        test();
 
     }
     // method to remove list item
@@ -72,7 +75,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // TOD O Auto-generated method stub
-                ds.removeItem(allTasks.get(deletePosition));
+           //     ds.removeItem(allTasks.get(deletePosition));
                 // main code on after clicking yes
                 myData.remove(deletePosition);
                 allTasks.remove(deletePosition);
@@ -93,6 +96,13 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void test(){
+        lv = (ListView) findViewById(R.id.listView);
+        allTasks  = ds.getAllTasks();
+        CustomAdapter ca = new CustomAdapter(this,allTasks, ds);
+        lv.setAdapter(ca);
+    }
+
     private void createListView(){
         lv = (ListView) findViewById(R.id.listView);
         allTasks  = ds.getAllTasks();
@@ -103,16 +113,24 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, myData);
-        lv.setAdapter(adapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv.setAdapter(adapter);
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // change the checkbox state
-                SparseBooleanArray checkedItems = new SparseBooleanArray(lv.getCount());
-                checkedItems = getAllCecked(lv);
-                //SparseBooleanArray checkedItems = getAllCecked(lv);
-                Log.e(LOG_TAG, "test");
+//                boolean checked = lv.isItemChecked(position);
+//                ds.updateTaskCheck(allTasks.get(position), checked);
+                CheckedTextView checkedTextView = ((CheckedTextView)view);
+                checkedTextView.setChecked(!checkedTextView.isChecked());
+                int myInt = (!checkedTextView.isChecked()) ? 1 : 0;
+                allTasks.get(position).setErledigt(myInt);
+         //       ds.updateTaskCheck(allTasks.get(position));
+                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetInvalidated();
+//                SparseBooleanArray checkedItems = getAllCecked(lv);
+//                updateSelection(checkedItems);
             }
         });
 
@@ -127,30 +145,26 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
             if(allTasks.get(j).getErledigt() == 1){
                 lv.setItemChecked(j, true);
             }
-            //lv.getItemAtPosition(j)
-//              CheckBox cb = (CheckBox) lv.getItemAtPosition(j);
-//              cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                      Intent myIntent = new Intent(TodoActivity.this, Task.class);
-//                      startActivity(myIntent);
-//                  }
-//              });
-//
-//                @Override
-//                public void onClick(View v) {
-//                    //is chkIos checked?
-//                    boolean ischecked = ((CheckBox) v).isChecked();
-//
-//                }
-//            });
+
         }
     }
 
-    private SparseBooleanArray getAllCecked(ListView lv){
-        SparseBooleanArray checked = lv.getCheckedItemPositions();
-        return checked;
-    }
-
+//    private void updateSelection(SparseBooleanArray checkedArray){
+//        for (int i = 0; i< checkedArray.size(); i++){
+//            int check = 0;
+//            if (checkedArray.get(i)) check = 1;
+//            if(allTasks.get(i).getErledigt() != check){
+//                ds.updateTaskCheck(allTasks.get(i), check);
+//            }
+//        }
+//    }
+//
+//    private SparseBooleanArray getAllCecked(ListView lv){
+//        SparseBooleanArray checked = lv.getCheckedItemPositions();
+////        SparseBooleanArray checked = new SparseBooleanArray(lv.getCount());
+////        checked = lv.getCheckedItemPositions();
+//        return checked;
+//    }
 
     @Override
     public void onClick(View v) {

@@ -85,7 +85,7 @@ public class DataSource {
         try{ContentValues values = registerUserData(user);
 
             long insertId = database.insert(TABLE_USER, null, values);
-            Log.e(LOG_TAG, "Register User erfolgreich" );
+            Log.e(LOG_TAG, "Register User erfolgreich");
             return true;
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim Anlegen der Tabelle: " + ex.getMessage());
@@ -99,7 +99,7 @@ public class DataSource {
         boolean result = false;
 
         try {
-            Cursor cursor = database.query("user", null, " Username = ? AND Password = ?", new String[]{user.getUsername(), user.getPassword()}, null, null, null);
+            Cursor cursor = database.query(TABLE_USER, null, " Username = ? AND Password = ?", new String[]{user.getUsername(), user.getPassword()}, null, null, null);
             Log.e(LOG_TAG, "User query - get Count: " + cursor.getCount());
             if (cursor.getCount() == 1) // UserName Not Exist
 
@@ -121,7 +121,7 @@ public class DataSource {
         values.put("Password", user.getPassword());
 
         try {
-            database.update("user", values, "Username = ?", new String[]{user.getUsername()});
+            database.update(TABLE_USER, values, "Username = ?", new String[]{user.getUsername()});
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim passwort Update:" + ex.getMessage());
         }
@@ -132,7 +132,7 @@ public class DataSource {
         boolean result = false;
 
         try {
-            Cursor cursor = database.query("user", null, null, null, null, null, null);
+            Cursor cursor = database.query(TABLE_USER, null, null, null, null, null, null);
             Log.e(LOG_TAG, "First Login? - get User Count: " + cursor.getCount());
 
 
@@ -161,7 +161,11 @@ public class DataSource {
     }
 
     public void removeItem(ToDo todo){
-        database.delete(TABLE_TODO,"Id = '" + todo.getId() + "'",null);
+        try {
+        database.delete(TABLE_TODO, "Id = '" + todo.getId() + "'", null);
+        }catch (Exception ex){
+            Log.e(LOG_TAG, "Fehler beim löschen eines Items:" + ex.getMessage());
+        }
     }
 
     public void deleteAll(){
@@ -171,7 +175,7 @@ public class DataSource {
         ArrayList<ToDo> result = new ArrayList<ToDo>();
 
         try {
-            Cursor cursor = database.query("aufgaben", null, null, null, null, null, null);
+            Cursor cursor = database.query(TABLE_TODO, null, null, null, null, null, null);
             cursor.moveToFirst();
             if (cursor.getCount() == 0){
                 cursor.close();
@@ -190,6 +194,18 @@ public class DataSource {
             Log.e(LOG_TAG, "Fehler beim pruefen ob erster Login:" + ex.getMessage());
         }
         return result;
+    }
+
+    public void updateTaskCheck(ToDo todo, int id){
+        ContentValues values = new ContentValues();
+        values.put("Erledigt", todo.getErledigt());
+
+        try {
+            database.update(TABLE_TODO, values, "Id = " + id,null);
+        }catch (Exception ex){
+            Log.e(LOG_TAG, "Fehler beim passwort Update:" + ex.getMessage());
+        }
+
     }
 
     private ToDo todoCursorToEntry(Cursor c) {
@@ -229,43 +245,3 @@ public class DataSource {
         }
     }
 }
-
-
-//    private City cityCursorToEntry(Cursor cursor) {
-//        City entry;
-//        entry = new City(cursor.getLong(0), // ID
-//                cursor.getString(1), 	// NAME
-//                cursor.getString(2), 	// COUNTRY
-//                cursor.getInt(3)); 		// POPULATION
-//        return entry;
-//    }
-//
-
-//    /**
-//     * Delete all data of table
-//     */
-//    public void deleteCityTable() {
-//        database.execSQL("delete from " + TABLE_MYCITIES);
-//    }
-//
-//    /**
-//     * Get all data of table
-//     * @return list<City>
-//     */
-//    public List<City> getCities() {
-//        List<City> myCityList = new ArrayList<City>();
-//        Cursor cursor = database.query(TABLE_MYCITIES, null,
-//                null, null, null, null, null);
-//        cursor.moveToFirst();
-//        if (cursor.getCount() == 0){
-//            cursor.close();
-//            return myCityList;
-//        }
-//        while (cursor.isAfterLast() == false) {
-//            City entry = cityCursorToEntry(cursor);
-//            myCityList.add(entry);
-//            cursor.moveToNext();
-//        }
-//        cursor.close();
-//    }
-//        return myCityList;
