@@ -149,14 +149,19 @@ public class DataSource {
         return result;
     }
 
-    private ContentValues addTodoData(String titel, String beschreibung, String datum, String uhrzeit, int wichtig){
+    private ContentValues addTodoData(String titel, String beschreibung, String datum, String uhrzeit, int wichtig, int erledigt){
         ContentValues values = new ContentValues();
         values.put("Title", titel);
         values.put("Info", beschreibung);
         values.put("Date", datum);
         values.put("Time", uhrzeit);
         values.put("Wichtig", wichtig);
-        values.put("Erledigt", 0);
+        if (erledigt == -1){
+            values.put("Erledigt", 0);
+        }else{
+            values.put("Erledigt", erledigt);
+        }
+
         return values;
     }
 
@@ -232,17 +237,25 @@ public class DataSource {
         return todo;
     }
 
-    //if(ds.addTodo(etTitel.toString(), etBeschreibung.toString(), new java.sql.Date(dp.getDayOfMonth(),dp.getMonth()+1,dp.getYear()), new Time(tp.getHour(),tp.getMinute(),0),bWichtig)){
-    public boolean addTodo(String titel, String beschreibung, String datum, String uhrzeit, int wichtig){
+    public void updateTodo(int id, String titel, String beschreibung, String datum, String uhrzeit, int wichtig, int erledigt){
+        try{
+            ContentValues values = addTodoData(titel, beschreibung, datum, uhrzeit, wichtig, erledigt);
 
-        try{ContentValues values = addTodoData(titel, beschreibung, datum, uhrzeit, wichtig);
+            database.update(TABLE_TODO, values, "Id = "+id, null);
+            Log.e(LOG_TAG, "Update ToDo erfolgreich" );
+        }catch (Exception ex){
+            Log.e(LOG_TAG, "Fehler beim Update der ToDo mit der nr. "+id+": " + ex.getMessage());
+        }
+    }
+
+    public void addTodo(String titel, String beschreibung, String datum, String uhrzeit, int wichtig){
+
+        try{ContentValues values = addTodoData(titel, beschreibung, datum, uhrzeit, wichtig,-1);
 
             long insertId = database.insert(TABLE_TODO, null, values);
             Log.e(LOG_TAG, "Add ToDo erfolgreich" );
-            return true;
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim Anlegen der Tabelle: " + ex.getMessage());
-            return false;
         }
     }
 }

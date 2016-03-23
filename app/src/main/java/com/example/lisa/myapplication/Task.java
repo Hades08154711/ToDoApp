@@ -30,7 +30,7 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
     private  TimePicker tp;
     private DataSource ds;
     private Button bBestaetigen, bCancel;
-
+    private Appdaten ad;
 
 
     @Override
@@ -40,6 +40,9 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         ds = new DataSource(this);
         ds.open();
         setContentView(R.layout.activity_task);
+
+        ad = new Appdaten();
+        ToDo adTodo = ad.getTodo(this);
 
         etTitel = (EditText) findViewById(R.id.Titel);
         etBeschreibung = (EditText) findViewById(R.id.Beschreibung);
@@ -51,6 +54,14 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         bCancel = (Button) findViewById(R.id.bCancel);
         bBestaetigen.setOnClickListener(this);
         bCancel.setOnClickListener(this);
+
+        if (adTodo.getTitel() != null){
+            etTitel.setText(adTodo.getTitel());
+            etBeschreibung.setText(adTodo.getTitel());
+//            dp = (DatePicker) findViewById(R.id.datePicker);
+//            tp = (TimePicker) findViewById(R.id.timePicker);
+            if (adTodo.getWichtig() == 1) cbWichtig.setChecked(true);
+        }
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //
@@ -67,53 +78,41 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         return super.findViewById(id);
     }
 
-    private void addToDo(){
+    private void updateToDo(){
+        ad = new Appdaten();
+        ToDo adTodo = ad.getTodo(this);
 
-        //TODO wert von cbWichtig abfragen
-        int wichtig = 0;
+        int wichtig = (cbWichtig.isChecked())? 1 : 0;
+
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         //TODO Warum - 1900
         String dateFormat = dateformat.format(new Date(dp.getYear()-1900, dp.getMonth(), dp.getDayOfMonth()));
-        if(ds.addTodo(etTitel.getText().toString(), etBeschreibung.getText().toString(), dateFormat, tp.getCurrentHour().toString() + ":" + tp.getCurrentMinute().toString(),wichtig)){
+        ds.updateTodo(adTodo.getId(), etTitel.getText().toString(), etBeschreibung.getText().toString(), dateFormat, tp.getCurrentHour().toString() + ":" + tp.getCurrentMinute().toString(), wichtig, adTodo.getErledigt());
 
-        }else{
+    }
+    private void addNewToDo(){
 
-        }
-
-//        simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
-//
-//        try {
-//            datum = simpleFormat.parse(etDate.getText().toString());
-//        }catch(ParseException e){
-//            e.printStackTrace();
-//        }
-//        longTime = Long.parseLong(etTime.getText().toString());
-//        uhrzeit.setTime(longTime);
-//        wichtig = bWichtig;
-//
-//        if(ds.addTodo(titel, beschreibung, datum, uhrzeit, wichtig)){
-//
-//        }else{
-//
-//        }
-//        Task neueTask = new Task(titel, beschreibung, datum, uhrzeit, wichtig );
-//        toDo = new Appdaten(neueTask);
-
-
+        int wichtig = (cbWichtig.isChecked())? 1 : 0;
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+        //TODO Warum - 1900
+        String dateFormat = dateformat.format(new Date(dp.getYear()-1900, dp.getMonth(), dp.getDayOfMonth()));
+        ds.addTodo(etTitel.getText().toString(), etBeschreibung.getText().toString(), dateFormat, tp.getCurrentHour().toString() + ":" + tp.getCurrentMinute().toString(),wichtig);
     }
 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bBestaetigen:
-                addToDo();
+                ToDo adTodo = ad.getTodo(this);
+                if(adTodo.getTitel() == null){
+                    addNewToDo();
+                }else{
+                    updateToDo();
+                }
                 startActivity(new Intent(this, TodoActivity.class));
                 break;
             case R.id.bCancel:
                 startActivity(new Intent(this, TodoActivity.class));
-//            case R.id.fab:
-//                startActivity(new Intent(this, Task.class));
-
-
+                break;
         }
     }
 

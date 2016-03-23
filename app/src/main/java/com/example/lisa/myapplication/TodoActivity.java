@@ -61,13 +61,12 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ;
         createListView();
-
     }
 
     private void createListView(){
         lv = (ListView) findViewById(R.id.listView);
         allTasks  = ds.getAllTasks();
-        CustomAdapter ca = new CustomAdapter(this,allTasks, ds);
+        CustomAdapter ca = new CustomAdapter(this,allTasks, ds, ad);
         lv.setAdapter(ca);
     }
 
@@ -78,6 +77,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, TodoActivity.class));
                 break;
             case R.id.fab:
+                ad.deleteTodo(this);
                 startActivity(new Intent(this, Task.class));
                 break;
 
@@ -89,6 +89,14 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    private void hideFinishedToDos(){
+        for (int i = 0; i < allTasks.size(); i++){
+            if(allTasks.get(i).getErledigt() == 1){
+                //TODO
+            }
+        }
     }
 
     private void alleloeschenallert(){
@@ -133,10 +141,14 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, Verwaltung.class));
                 break;
             case R.id.action_newtodo:
+                ad.deleteTodo(this);
                 startActivity(new Intent(this, Task.class));
                 break;
             case R.id.action_deleteall:
                 alleloeschenallert();
+                break;
+            case R.id.action_hideDone:
+                hideFinishedToDos();
                 break;
             case R.id.action_sortDate:
                 sortierenWichtig();
@@ -154,8 +166,8 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         });
-        CustomAdapter ca2 = new CustomAdapter(this,allTasks,ds);
-        lv.setAdapter(ca2);
+//        CustomAdapter ca2 = new CustomAdapter(this,allTasks,ds);
+//        lv.setAdapter(ca2);
     }
 
 }

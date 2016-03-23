@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,68 +29,106 @@ public class CustomAdapter extends ArrayAdapter {
     private LayoutInflater inflater;
     private List<ToDo> allTasks;
     private DataSource ds;
+    private Appdaten ad;
+
     ViewHolder vh;
-    public CustomAdapter (Context context, List<ToDo> values,DataSource ds) { // or String[][] or whatever
+    public CustomAdapter (Context context, List<ToDo> values,DataSource ds, Appdaten ad) { // or String[][] or whatever
 
         super(context, R.layout.customlistview, values);
         this.ds = ds;
+        this.ad = ad;
         this.context = context;
         this.resource = R.layout.customlistview;
         this.inflater = LayoutInflater.from(context);
         this.allTasks = values;
-
+        ad = new Appdaten();
 
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
+//        if(convertView == null){
+
             convertView = (RelativeLayout) inflater.inflate(resource, null);
+            ImageView iv = (ImageView) convertView.findViewById(R.id.imageView);
             TextView tv = (TextView) convertView.findViewById(R.id.title);
             CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkBox);
-
-            vh = new ViewHolder();
-            vh.title = tv;
-            vh.cb = cb;
-            convertView.setTag(vh);
-            vh.position = allTasks.get(position).getId();
-
-
-            vh.title.setText(allTasks.get(position).getTitel());
-            vh.title.setId(allTasks.get(position).getId());
-
-            vh.cb.setText("");
             if (allTasks.get(position).getErledigt() == 1){
-                vh.cb.setSelected(true);
+                cb.setChecked(true);
             }
-        }else{
-            vh = (ViewHolder) convertView.getTag();
-        }
+            if (allTasks.get(position).getWichtig() == 1){
 
-        vh.title.setOnClickListener(new View.OnClickListener() {
+                iv.setVisibility(View.VISIBLE);
+            }else{
+                iv.setVisibility(View.INVISIBLE);
+            }
+            cb.setText("");
+            tv.setText(allTasks.get(position).getTitel());
+//            vh = new ViewHolder();
+//            vh.title = tv;
+//            vh.cb = cb;
+//            convertView.setTag(vh);
+//            vh.position = allTasks.get(position).getId();
+//
+//
+//            vh.title.setText(allTasks.get(position).getTitel());
+//            vh.title.setId(allTasks.get(position).getId());
+//
+//            vh.cb.setText("");
+//            if (allTasks.get(position).getErledigt() == 1){
+//                vh.cb.setSelected(true);
+//            }
+//        }else{
+//            vh = (ViewHolder) convertView.getTag();
+//        }
+//
+//        vh.title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent myIntent = new Intent(context, Task.class);
+//                context.startActivity(myIntent);
+//            }
+//        });
+//        vh.title.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                removeItemFromList(v.getId());
+//                return true;
+//            }
+//        });
+//
+//        vh.cb.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                   editeChecked(v, allTasks.get(position).getId());
+//            }
+//        });
+//
+
+            tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ad.deleteTodo(context);
+                ad.addTodo(context,allTasks.get(position));
                 Intent myIntent = new Intent(context, Task.class);
                 context.startActivity(myIntent);
             }
         });
-        vh.title.setOnLongClickListener(new View.OnLongClickListener() {
+
+            tv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                removeItemFromList(v.getId());
+                removeItemFromList(allTasks.get(position).getId());
                 return true;
             }
         });
-
-        vh.cb.setOnClickListener(new View.OnClickListener() {
+            cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                    editeChecked(v, allTasks.get(position).getId());
             }
         });
-
-
         return convertView;
     }
 
