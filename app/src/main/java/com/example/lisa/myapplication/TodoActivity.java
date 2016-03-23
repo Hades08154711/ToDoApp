@@ -57,114 +57,17 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ;
+        createListView();
 
-        //createListView();
-        test();
-
-    }
-    // method to remove list item
-    protected void removeItemFromList(int position) {
-        final int deletePosition = position;
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(
-                TodoActivity.this);
-
-        alert.setTitle("Delete");
-        alert.setMessage("Do you want delete this item?");
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TOD O Auto-generated method stub
-           //     ds.removeItem(allTasks.get(deletePosition));
-                // main code on after clicking yes
-                myData.remove(deletePosition);
-                allTasks.remove(deletePosition);
-                adapter.notifyDataSetChanged();
-                adapter.notifyDataSetInvalidated();
-
-            }
-        });
-        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                dialog.dismiss();
-            }
-        });
-
-        alert.show();
-
-    }
-
-    private void test(){
-        lv = (ListView) findViewById(R.id.listView);
-        allTasks  = ds.getAllTasks();
-        CustomAdapter ca = new CustomAdapter(this,allTasks, ds);
-        lv.setAdapter(ca);
     }
 
     private void createListView(){
         lv = (ListView) findViewById(R.id.listView);
         allTasks  = ds.getAllTasks();
-        myData = new ArrayList<String>();
-        String test;
-        for (int i = 0; i< allTasks.size(); i++){
-            myData.add(allTasks.get(i).getTitel());
-        }
-
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, myData);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv.setAdapter(adapter);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // change the checkbox state
-//                boolean checked = lv.isItemChecked(position);
-//                ds.updateTaskCheck(allTasks.get(position), checked);
-                CheckedTextView checkedTextView = ((CheckedTextView)view);
-                checkedTextView.setChecked(!checkedTextView.isChecked());
-                int myInt = (!checkedTextView.isChecked()) ? 1 : 0;
-                allTasks.get(position).setErledigt(myInt);
-         //       ds.updateTaskCheck(allTasks.get(position));
-                adapter.notifyDataSetChanged();
-                adapter.notifyDataSetInvalidated();
-//                SparseBooleanArray checkedItems = getAllCecked(lv);
-//                updateSelection(checkedItems);
-            }
-        });
-
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                removeItemFromList(position);
-                return true;
-            }
-        });
-
-        for (int j = 0; j< allTasks.size(); j++){
-            if(allTasks.get(j).getErledigt() == 1){
-                lv.setItemChecked(j, true);
-            }
-
-        }
+        CustomAdapter ca = new CustomAdapter(this,allTasks, ds);
+        lv.setAdapter(ca);
     }
-
-//    private void updateSelection(SparseBooleanArray checkedArray){
-//        for (int i = 0; i< checkedArray.size(); i++){
-//            int check = 0;
-//            if (checkedArray.get(i)) check = 1;
-//            if(allTasks.get(i).getErledigt() != check){
-//                ds.updateTaskCheck(allTasks.get(i), check);
-//            }
-//        }
-//    }
-//
-//    private SparseBooleanArray getAllCecked(ListView lv){
-//        SparseBooleanArray checked = lv.getCheckedItemPositions();
-////        SparseBooleanArray checked = new SparseBooleanArray(lv.getCount());
-////        checked = lv.getCheckedItemPositions();
-//        return checked;
-//    }
 
     @Override
     public void onClick(View v) {
