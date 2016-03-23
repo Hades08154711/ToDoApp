@@ -56,11 +56,8 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(firstLogin()){
-            startActivity(new Intent(this, Register.class));
-        }else{
-            createListView();
-        }
+        createListView();
+
     }
     // method to remove list item
     protected void removeItemFromList(int position) {
@@ -112,7 +109,9 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // change the checkbox state
-                SparseBooleanArray checkedItems = getAllCecked(lv);
+                SparseBooleanArray checkedItems = new SparseBooleanArray(lv.getCount());
+                checkedItems = getAllCecked(lv);
+                //SparseBooleanArray checkedItems = getAllCecked(lv);
                 Log.e(LOG_TAG, "test");
             }
         });
@@ -151,11 +150,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         SparseBooleanArray checked = lv.getCheckedItemPositions();
         return checked;
     }
-    private boolean firstLogin(){
-        //ds.open();
-        boolean result = ds.firstLogin();
-        return result;
-    }
+
 
     @Override
     public void onClick(View v) {

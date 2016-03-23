@@ -40,6 +40,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         bLogin.setOnClickListener(this);
         tvRegisterLink.setOnClickListener(this);
+
+         if(firstLogin()){
+             startActivity(new Intent(this, Register.class));
+         }
+    }
+
+    private boolean firstLogin(){
+        //ds.open();
+        boolean result = ds.firstLogin();
+        return result;
     }
 
     @Override
