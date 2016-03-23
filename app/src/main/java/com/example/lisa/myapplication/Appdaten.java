@@ -32,14 +32,14 @@ public final class Appdaten {
         editor.putString("Time", todo.getTime());
         editor.putInt("Wichtig", todo.getWichtig());
         editor.putInt("Erledigt", todo.getErledigt());
-        //editor.commit();
+        editor.commit();
     }
 
     public static void addUser(Context ctx, String name){
         SharedPreferences prefs = ctx.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("Username", name);
-        //editor.commit();
+        editor.commit();
     }
 
     public static void deleteTodo(Context ctx){

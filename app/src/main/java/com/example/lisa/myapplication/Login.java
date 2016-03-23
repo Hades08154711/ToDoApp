@@ -24,6 +24,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     EditText etUsername, etPassword;
     TextView tvRegisterLink;
     private DataSource ds;
+    private Appdaten ad;
+
     private static final String LOG_TAG = DataSource.class.getSimpleName();
 
      @Override
@@ -33,6 +35,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         ds = new DataSource(this);
         ds.open();
+         ad = new Appdaten();
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword =(EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
@@ -48,7 +51,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private boolean firstLogin(){
         //ds.open();
-        boolean result = ds.firstLogin();
+        boolean result = ds.firstLogin(this);
         return result;
     }
 
@@ -114,6 +117,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             User user = new User(username,password);
            // ds.open();
             if(ds.loginUser(user)){
+                ad.addUser(this, user.getUsername());
                 ds.close();
                 startActivity(new Intent(this, TodoActivity.class));
             }else{

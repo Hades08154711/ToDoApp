@@ -21,6 +21,7 @@ public class DataSource {
     private MySQLHelper dbHelper;
     public Context context;
 
+
     private static final String TABLE_USER = "user";
     private static final String TABLE_TODO = "aufgaben";
     private static final String LOG_TAG = DataSource.class.getSimpleName();
@@ -32,6 +33,8 @@ public class DataSource {
     public DataSource(Context context) {
         this.context = context;
         dbHelper = new MySQLHelper(context);
+
+
     }
 
     /**
@@ -99,6 +102,7 @@ public class DataSource {
             Cursor cursor = database.query("user", null, " Username = ? AND Password = ?", new String[]{user.getUsername(), user.getPassword()}, null, null, null);
             Log.e(LOG_TAG, "User query - get Count: " + cursor.getCount());
             if (cursor.getCount() == 1) // UserName Not Exist
+
             {
                 result = true;
             }
@@ -124,12 +128,14 @@ public class DataSource {
 
     }
 
-    public boolean firstLogin(){
+    public boolean firstLogin(Context c){
         boolean result = false;
 
         try {
             Cursor cursor = database.query("user", null, null, null, null, null, null);
             Log.e(LOG_TAG, "First Login? - get User Count: " + cursor.getCount());
+
+
             if (cursor.getCount() < 1) // UserName Not Exist
             {
                 result = true;
