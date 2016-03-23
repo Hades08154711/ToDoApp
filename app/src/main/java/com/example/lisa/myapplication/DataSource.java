@@ -216,24 +216,14 @@ public class DataSource {
 
     private ToDo todoCursorToEntry(Cursor c) {
         ToDo todo;
-        String t1,t2,t3,t4;
-        int i1,i2;
-
-        i1= c.getInt(c.getColumnIndex("Id"));
-        t1 = c.getString(c.getColumnIndex("Title"));
-
-//        t2 = todo.getInfo() ;
-//        t3 = todo.getDate();
-//        t4 = todo.getTime();
-//        i2 = todo.getWichtig();
         todo = new ToDo(c.getInt(c.getColumnIndex("Id")), // ID
                 c.getString(c.getColumnIndex("Title")), // TITEL
                 c.getString(c.getColumnIndex("Info")), 	// INFO
                 c.getString(c.getColumnIndex("Date")), 	// DATE
-                c.getString(c.getColumnIndex("Time")), 		// TIME
-                c.getInt(c.getColumnIndex("Wichtig")),
+                c.getString(c.getColumnIndex("Time")), 	// TIME
+                c.getInt(c.getColumnIndex("Wichtig")),  // WICHTIG
                 c.getInt(c.getColumnIndex("Erledigt"))
-        ); 		// WICHTIG
+        );
         return todo;
     }
 

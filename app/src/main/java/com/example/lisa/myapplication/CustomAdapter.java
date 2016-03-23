@@ -64,48 +64,8 @@ public class CustomAdapter extends ArrayAdapter {
                 iv.setVisibility(View.INVISIBLE);
             }
             cb.setText("");
-            tv.setText(allTasks.get(position).getTitel());
-//            vh = new ViewHolder();
-//            vh.title = tv;
-//            vh.cb = cb;
-//            convertView.setTag(vh);
-//            vh.position = allTasks.get(position).getId();
-//
-//
-//            vh.title.setText(allTasks.get(position).getTitel());
-//            vh.title.setId(allTasks.get(position).getId());
-//
-//            vh.cb.setText("");
-//            if (allTasks.get(position).getErledigt() == 1){
-//                vh.cb.setSelected(true);
-//            }
-//        }else{
-//            vh = (ViewHolder) convertView.getTag();
-//        }
-//
-//        vh.title.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent myIntent = new Intent(context, Task.class);
-//                context.startActivity(myIntent);
-//            }
-//        });
-//        vh.title.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                removeItemFromList(v.getId());
-//                return true;
-//            }
-//        });
-//
-//        vh.cb.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                   editeChecked(v, allTasks.get(position).getId());
-//            }
-//        });
-//
 
+            tv.setText(allTasks.get(position).getTitel());
             tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -48,6 +48,7 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         etBeschreibung = (EditText) findViewById(R.id.Beschreibung);
         dp = (DatePicker) findViewById(R.id.datePicker);
         tp = (TimePicker) findViewById(R.id.timePicker);
+        tp.setIs24HourView(true);
         cbWichtig = (CheckBox) findViewById(R.id.cbWichtig);
 
         bBestaetigen = (Button) findViewById(R.id.bBestaetigen);
@@ -61,18 +62,17 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
 //            dp = (DatePicker) findViewById(R.id.datePicker);
 //            tp = (TimePicker) findViewById(R.id.timePicker);
             if (adTodo.getWichtig() == 1) cbWichtig.setChecked(true);
+
+            int year = Integer.valueOf(adTodo.getDate().split("-")[0]);
+            int month = Integer.valueOf(adTodo.getDate().split("-")[1]);
+            int day = Integer.valueOf(adTodo.getDate().split("-")[2]);
+            dp.updateDate(year,month,day);
+
+            int hour = Integer.valueOf(adTodo.getTime().split(":")[0]);
+            int minute = Integer.valueOf(adTodo.getTime().split(":")[1]);
+            tp.setCurrentHour(hour);
+            tp.setCurrentMinute(minute);
         }
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 }
     public View findViewById(int id) {
         return super.findViewById(id);

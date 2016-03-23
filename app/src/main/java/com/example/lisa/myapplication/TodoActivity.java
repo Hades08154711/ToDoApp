@@ -43,7 +43,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
     ArrayAdapter<String> adapter;
     ArrayList<ToDo> allTasks ;
     ArrayList<String> myData;
-
+    CustomAdapter ca;
     private static final String LOG_TAG = DataSource.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
     private void createListView(){
         lv = (ListView) findViewById(R.id.listView);
         allTasks  = ds.getAllTasks();
-        CustomAdapter ca = new CustomAdapter(this,allTasks, ds, ad);
+        ca = new CustomAdapter(this,allTasks, ds, ad);
         lv.setAdapter(ca);
     }
 
@@ -94,9 +94,12 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
     private void hideFinishedToDos(){
         for (int i = 0; i < allTasks.size(); i++){
             if(allTasks.get(i).getErledigt() == 1){
+                lv.setVisibility(View.INVISIBLE);
                 //TODO
             }
         }
+        ca.notifyDataSetChanged();
+        ca.notifyDataSetInvalidated();
     }
 
     private void alleloeschenallert(){
@@ -162,10 +165,12 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         Collections.sort(allTasks, new Comparator<ToDo>() {
             @Override
             public int compare(ToDo td1, ToDo td2) {
-                return td1.getTitel().compareToIgnoreCase(td2.getTitel());
+                return td1.getDate().compareToIgnoreCase(td2.getDate());
             }
 
         });
+        ca.notifyDataSetChanged();
+        ca.notifyDataSetInvalidated();
 //        CustomAdapter ca2 = new CustomAdapter(this,allTasks,ds);
 //        lv.setAdapter(ca2);
     }
