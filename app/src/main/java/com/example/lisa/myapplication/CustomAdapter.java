@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +22,13 @@ import java.util.List;
  * Created by User on 23.03.2016.
  */
 public class CustomAdapter extends ArrayAdapter {
-
+    private static final String LOG_TAG = DataSource.class.getSimpleName();
     private Context context;
     private int resource;
     private LayoutInflater inflater;
     private List<ToDo> allTasks;
     private DataSource ds;
-
+    ViewHolder vh;
     public CustomAdapter (Context context, List<ToDo> values,DataSource ds) { // or String[][] or whatever
 
         super(context, R.layout.customlistview, values);
@@ -41,39 +42,54 @@ public class CustomAdapter extends ArrayAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
-        convertView = (RelativeLayout) inflater.inflate(resource, null);
+        if(convertView == null){
+            convertView = (RelativeLayout) inflater.inflate(resource, null);
+            TextView tv = (TextView) convertView.findViewById(R.id.title);
+            CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkBox);
 
-        TextView tv = (TextView) convertView.findViewById(R.id.title);
-        CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkBox);
+            vh = new ViewHolder();
+            vh.title = tv;
+            vh.cb = cb;
+            convertView.setTag(vh);
+            vh.position = allTasks.get(position).getId();
 
-        tv.setText(allTasks.get(position).getTitel());
-        tv.setId(allTasks.get(position).getId());
 
-        tv.setOnClickListener(new View.OnClickListener() {
+            vh.title.setText(allTasks.get(position).getTitel());
+            vh.title.setId(allTasks.get(position).getId());
+
+            vh.cb.setText("");
+            if (allTasks.get(position).getErledigt() == 1){
+                vh.cb.setSelected(true);
+            }
+        }else{
+            vh = (ViewHolder) convertView.getTag();
+        }
+
+        vh.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, Task.class);
                 context.startActivity(myIntent);
             }
         });
-        tv.setOnLongClickListener(new View.OnLongClickListener() {
+        vh.title.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 removeItemFromList(v.getId());
                 return true;
             }
         });
-        cb.setText("");
 
-        //cb.setId(allTasks.get(position).getId());
-        cb.setOnClickListener(new View.OnClickListener() {
+        vh.cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editeChecked(v, v.getId());
+                   editeChecked(v, allTasks.get(position).getId());
             }
         });
+
+
         return convertView;
     }
 
@@ -84,7 +100,7 @@ public class CustomAdapter extends ArrayAdapter {
         for (int i = 0; i < allTasks.size(); i++) {
             if (allTasks.get(i).getId() == id) {
                 allTasks.get(i).setErledigt(myInt);
-                ds.updateTaskCheck(allTasks.get(i), myInt);
+                ds.updateTaskCheck(allTasks.get(i));
             }
         }
     }
@@ -127,4 +143,10 @@ public class CustomAdapter extends ArrayAdapter {
         alert.show();
 
     }
+    static class ViewHolder {
+        CheckBox cb;
+        TextView title;
+        int position;
+    }
 }
+

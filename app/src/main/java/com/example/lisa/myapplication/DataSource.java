@@ -196,12 +196,13 @@ public class DataSource {
         return result;
     }
 
-    public void updateTaskCheck(ToDo todo, int id){
+    public void updateTaskCheck(ToDo todo){
+
         ContentValues values = new ContentValues();
         values.put("Erledigt", todo.getErledigt());
 
         try {
-            database.update(TABLE_TODO, values, "Id = " + id,null);
+            database.update(TABLE_TODO, values, "Id = " + todo.getId(),null);
         }catch (Exception ex){
             Log.e(LOG_TAG, "Fehler beim passwort Update:" + ex.getMessage());
         }
