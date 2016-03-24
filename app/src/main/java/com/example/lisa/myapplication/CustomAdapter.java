@@ -45,6 +45,13 @@ public class CustomAdapter extends ArrayAdapter {
 
     }
 
+//    private void changeVisibility(){
+//        if(txt2.getVisibility() == View.INVISIBLE){
+//            txt2.setVisibility(View.VISIBLE);
+//        } else {
+//            txt2.setVisibility(View.INVISIBLE);
+//        }
+//    }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -67,6 +74,7 @@ public class CustomAdapter extends ArrayAdapter {
 
             tv.setText(allTasks.get(position).getTitel());
             tv.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 ad.deleteTodo(context);

@@ -64,7 +64,7 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
             if (adTodo.getWichtig() == 1) cbWichtig.setChecked(true);
 
             int year = Integer.valueOf(adTodo.getDate().split("-")[0]);
-            int month = Integer.valueOf(adTodo.getDate().split("-")[1]);
+            int month = Integer.valueOf(adTodo.getDate().split("-")[1])+1;
             int day = Integer.valueOf(adTodo.getDate().split("-")[2]);
             dp.updateDate(year,month,day);
 
