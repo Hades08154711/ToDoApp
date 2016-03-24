@@ -43,6 +43,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
     ArrayAdapter<String> adapter;
     ArrayList<ToDo> allTasks, sortTasks ;
     ArrayList<ToDo> wichtig, unwichtig;
+    ArrayList<ToDo> sicherungAllTasks ;
     ArrayList<String> myData;
     CustomAdapter ca;
     private static final String LOG_TAG = DataSource.class.getSimpleName();
@@ -67,6 +68,8 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
     private void createListView(){
         lv = (ListView) findViewById(R.id.listView);
         allTasks  = ds.getAllTasks();
+        sicherungAllTasks = new ArrayList<ToDo>();
+        //sicherungAllTasks = ds.getAllTasks();
         ca = new CustomAdapter(this,allTasks, ds, ad);
         lv.setAdapter(ca);
     }
@@ -92,13 +95,28 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+    private static boolean hide = false;
     private void hideFinishedToDos(){
-        for (int i = 0; i < allTasks.size(); i++){
-            if(allTasks.get(i).getErledigt() == 1){
-                lv.setVisibility(View.INVISIBLE);
-                //TODO
+        hide = !hide;
+        if(hide){
+            for (int i = 0; i < allTasks.size(); i++){
+                if(allTasks.get(i).getErledigt() == 1){
+//                lv.setVisibility(View.INVISIBLE);
+                    sicherungAllTasks.add(allTasks.get(i));
+                    allTasks.remove(i);
+                    //TODO
+                    Log.e(LOG_TAG, "Verstecken");
+                }
             }
+        }else{
+            for (int j = 0; j< sicherungAllTasks.size(); j++){
+                allTasks.add(sicherungAllTasks.get(j));
+                sicherungAllTasks.remove(j);
+            }
+
+            Log.e(LOG_TAG, "Anzeigen");
         }
+
         ca.notifyDataSetChanged();
         ca.notifyDataSetInvalidated();
     }
@@ -177,10 +195,14 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         Collections.sort(unwichtig, new Comparator<ToDo>() {
             @Override
             public int compare(ToDo td1, ToDo td2) {
+                
                 return td1.getDate().compareToIgnoreCase(td2.getDate());
             }
 
         });
+
+
+
         Collections.sort(wichtig, new Comparator<ToDo>() {
             @Override
             public int compare(ToDo td1, ToDo td2) {
@@ -198,8 +220,7 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         allTasks = sortTasks;
         ca.notifyDataSetChanged();
         ca.notifyDataSetInvalidated();
-//        CustomAdapter ca2 = new CustomAdapter(this,allTasks,ds);
-//        lv.setAdapter(ca2);
+
     }
 
     public void sortierenDatumUhrzeit(){
