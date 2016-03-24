@@ -24,7 +24,7 @@
         android:title="nach Datum sortieren"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_"
+        android:id="@+id/action_sortImpDate"
         android:orderInCategory="500"
         android:title="nach Wichtigkeit+Datum sortieren"
         app:showAsAction="never" />

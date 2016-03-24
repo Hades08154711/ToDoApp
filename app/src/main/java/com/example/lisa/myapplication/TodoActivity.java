@@ -41,7 +41,8 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
     DataSource ds;
     private ListView lv;
     ArrayAdapter<String> adapter;
-    ArrayList<ToDo> allTasks ;
+    ArrayList<ToDo> allTasks, sortTasks ;
+    ArrayList<ToDo> wichtig, unwichtig;
     ArrayList<String> myData;
     CustomAdapter ca;
     private static final String LOG_TAG = DataSource.class.getSimpleName();
@@ -154,25 +155,54 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
                 hideFinishedToDos();
                 break;
             case R.id.action_sortDate:
-                sortierenWichtig();
+                sortierenDatumUhrzeit();
+                break;
+            case R.id.action_sortImpDate:
+                sortierenWichtigDatum();
                 break;
 
 
         }
         return super.onOptionsItemSelected(item);
     }
-    public void sortierenWichtig(){
-        Collections.sort(allTasks, new Comparator<ToDo>() {
+    public void sortierenWichtigDatum(){
+        for (int i = 0; i < allTasks.size(); i++){
+            if(allTasks.get(i).getWichtig() == 0){
+                unwichtig.add(i, allTasks.get(i));
+            }else{
+                wichtig.add(i, allTasks.get(i));
+            }
+        }
+
+        Collections.sort(unwichtig, new Comparator<ToDo>() {
             @Override
             public int compare(ToDo td1, ToDo td2) {
                 return td1.getDate().compareToIgnoreCase(td2.getDate());
             }
 
         });
+        Collections.sort(wichtig, new Comparator<ToDo>() {
+            @Override
+            public int compare(ToDo td1, ToDo td2) {
+                return td1.getDate().compareToIgnoreCase(td2.getDate());
+            }
+
+        });
+
+        for (int j= 0; j < wichtig.size(); j++){
+            sortTasks.add(j,wichtig.get(j));
+        }
+        for (int j= 0; j < unwichtig.size(); j++){
+            sortTasks.add(j+wichtig.size(),unwichtig.get(j));
+        }
+        allTasks = sortTasks;
         ca.notifyDataSetChanged();
         ca.notifyDataSetInvalidated();
 //        CustomAdapter ca2 = new CustomAdapter(this,allTasks,ds);
 //        lv.setAdapter(ca2);
     }
 
+    public void sortierenDatumUhrzeit(){
+
+    }
 }
