@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,13 +50,7 @@ public class CustomAdapter extends ArrayAdapter {
 
     }
 
-//    private void changeVisibility(){
-//        if(txt2.getVisibility() == View.INVISIBLE){
-//            txt2.setVisibility(View.VISIBLE);
-//        } else {
-//            txt2.setVisibility(View.INVISIBLE);
-//        }
-//    }
+    private Calendar mCalendar = null;
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -64,6 +63,25 @@ public class CustomAdapter extends ArrayAdapter {
             if (allTasks.get(position).getErledigt() == 1){
                 cb.setChecked(true);
             }
+            mCalendar = Calendar.getInstance();
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String timeNow = format.format(mCalendar.getTime());
+            String timeToDo = allTasks.get(position).getDate()+" "+allTasks.get(position).getTime();
+
+            int test = timeNow.compareToIgnoreCase(timeToDo);
+
+            if( timeNow.compareToIgnoreCase(timeToDo) < 0) {
+                // second is less than first...
+
+                //tv.setTextColor(Color.parseColor("#F5DC49"));
+            } else if (timeNow.compareToIgnoreCase(timeToDo) == 0) {
+                // second is same as first...
+            } else if (timeNow.compareToIgnoreCase(timeToDo) > 0) {
+                // second is greater than first...
+                tv.setBackgroundColor(Color.parseColor("#FF0000"));
+            }
+
             if (allTasks.get(position).getWichtig() == 1){
 
                 iv.setVisibility(View.VISIBLE);

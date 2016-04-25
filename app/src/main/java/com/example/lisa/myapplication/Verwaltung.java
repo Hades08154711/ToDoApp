@@ -20,14 +20,14 @@ public class Verwaltung extends AppCompatActivity implements View.OnClickListene
     EditText etOldPassword, etNewPassword, etRetypePassword;
     private DataSource ds;
     private String _username;
-
+    Appdaten ad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verwaltung);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        ad = new Appdaten();
         etOldPassword = (EditText) findViewById(R.id.etOldPassword);
         etNewPassword = (EditText) findViewById(R.id.etNewPassword);
         etRetypePassword = (EditText) findViewById(R.id.etRetypePassword);
@@ -36,7 +36,8 @@ public class Verwaltung extends AppCompatActivity implements View.OnClickListene
 
         bSave.setOnClickListener(this);
         // TODO muß angepasst werden
-        _username = "affe";
+
+        _username = ad.getUser(this);
         ds = new DataSource(this);
         ds.open();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -70,6 +71,13 @@ public class Verwaltung extends AppCompatActivity implements View.OnClickListene
 
     private boolean isPasswordValid(String password) {
         //TODO sonderzeichen nicht erlauben
+        for (int i =0; i<password.length(); i++) {
+            if (password.charAt(i) > -1 && password.charAt(i) <=47
+                    || password.charAt(i) >= 58&& password.charAt(i) <= 64
+                    || password.charAt(i) >= 91&& password.charAt(i) <= 96){
+                return false;
+            }
+        }
         Pattern p = Pattern.compile("([A-Za-z].+[0-9])");
         Matcher m = p.matcher(password);
 

@@ -59,12 +59,11 @@ public class Task extends AppCompatActivity implements View.OnClickListener{
         if (adTodo.getTitel() != null){
             etTitel.setText(adTodo.getTitel());
             etBeschreibung.setText(adTodo.getTitel());
-//            dp = (DatePicker) findViewById(R.id.datePicker);
-//            tp = (TimePicker) findViewById(R.id.timePicker);
+
             if (adTodo.getWichtig() == 1) cbWichtig.setChecked(true);
 
             int year = Integer.valueOf(adTodo.getDate().split("-")[0]);
-            int month = Integer.valueOf(adTodo.getDate().split("-")[1])+1;
+            int month = Integer.valueOf(adTodo.getDate().split("-")[1])-1;
             int day = Integer.valueOf(adTodo.getDate().split("-")[2]);
             dp.updateDate(year,month,day);
 

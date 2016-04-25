@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -29,6 +30,8 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -150,6 +153,21 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         alert.show();
 
     }
+
+    private void getDateandTime(ToDo adTodo){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//        int year = Integer.valueOf(adTodo.getDate().split("-")[0]);
+//        int month = Integer.valueOf(adTodo.getDate().split("-")[1])+1;
+//        int day = Integer.valueOf(adTodo.getDate().split("-")[2]);
+//
+//
+//        int hour = Integer.valueOf(adTodo.getTime().split(":")[0]);
+//        int minute = Integer.valueOf(adTodo.getTime().split(":")[1]);
+
+        String test = df.format(Date.parse((adTodo.getDate() + " " + adTodo.getTime())));
+        Log.e(LOG_TAG,"test");
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -184,19 +202,26 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
     public void sortierenWichtigDatum(){
-        for (int i = 0; i < allTasks.size(); i++){
-            if(allTasks.get(i).getWichtig() == 0){
-                unwichtig.add(i, allTasks.get(i));
+        unwichtig = new ArrayList<ToDo>();
+        wichtig = new ArrayList<ToDo>();
+        sortTasks = new ArrayList<ToDo>();
+
+        for (int p = 0; p < allTasks.size(); p++){
+            if(allTasks.get(p).getWichtig() == 0){
+                unwichtig.add(allTasks.get(p));
             }else{
-                wichtig.add(i, allTasks.get(i));
+                wichtig.add(allTasks.get(p));
             }
         }
+
 
         Collections.sort(unwichtig, new Comparator<ToDo>() {
             @Override
             public int compare(ToDo td1, ToDo td2) {
-                
-                return td1.getDate().compareToIgnoreCase(td2.getDate());
+                //getDateandTime(td1);
+                String s1 = td1.getDate()+" "+td1.getTime();
+                String s2 = td2.getDate()+" "+td2.getTime();
+                return s1.compareToIgnoreCase(s2);
             }
 
         });
@@ -206,24 +231,50 @@ public class TodoActivity extends AppCompatActivity implements View.OnClickListe
         Collections.sort(wichtig, new Comparator<ToDo>() {
             @Override
             public int compare(ToDo td1, ToDo td2) {
-                return td1.getDate().compareToIgnoreCase(td2.getDate());
+                String s1 = td1.getDate() + " " + td1.getTime();
+                String s2 = td2.getDate() + " " + td2.getTime();
+                return s1.compareToIgnoreCase(s2);
             }
 
         });
 
-        for (int j= 0; j < wichtig.size(); j++){
-            sortTasks.add(j,wichtig.get(j));
+        for (int i= 0; i < wichtig.size(); i++){
+            sortTasks.add(wichtig.get(i));
         }
         for (int j= 0; j < unwichtig.size(); j++){
-            sortTasks.add(j+wichtig.size(),unwichtig.get(j));
+            sortTasks.add(unwichtig.get(j));
         }
-        allTasks = sortTasks;
+        allTasks.clear();
+        for (int s = 0; s < sortTasks.size(); s++){
+            allTasks.add(sortTasks.get(s));
+        }
+
         ca.notifyDataSetChanged();
         ca.notifyDataSetInvalidated();
 
     }
 
     public void sortierenDatumUhrzeit(){
+        sortTasks = new ArrayList<ToDo>();
+
+        Collections.sort(allTasks, new Comparator<ToDo>() {
+            @Override
+            public int compare(ToDo td1, ToDo td2) {
+                //getDateandTime(td1);
+                String s1 = td1.getDate()+" "+td1.getTime();
+                String s2 = td2.getDate()+" "+td2.getTime();
+                return s1.compareToIgnoreCase(s2);
+            }
+
+        });
+
+//        allTasks.clear();
+//        for (int s = 0; s < sortTasks.size(); s++){
+//            allTasks.add(sortTasks.get(s));
+//        }
+
+        ca.notifyDataSetChanged();
+        ca.notifyDataSetInvalidated();
 
     }
 }
